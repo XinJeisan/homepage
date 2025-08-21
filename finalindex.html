@@ -8,7 +8,7 @@
   <meta name="author" content="Jason Packman">
   <meta property="og:title" content="Jason Packman - Teacher • Translator • Traveler">
   <meta property="og:description" content="Personal website of Jason Packman — teacher, translator, traveler.">
-  <style>
+   <style>
     /* CSS Variables */
     :root { 
       --gap: 1em;
@@ -276,22 +276,41 @@
     }
     
     /* Subtle underline animation */
-    @media (prefers-reduced-motion: no-preference) {
-      a::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: var(--accent-color);
-        transition: width 0.3s ease;
-      }
-      a:hover::after,
-      a:focus::after {
-        width: 100%;
-      }
-    }
+   /* Links */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  position: relative;
+}
+a:hover, a:focus {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+/* Improved underline animation using background */
+@media (prefers-reduced-motion: no-preference) {
+  a {
+    background-image: linear-gradient(var(--accent-color), var(--accent-color));
+    background-size: 0% 2px;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease, background-size 0.3s ease;
+  }
+  
+  a:hover,
+  a:focus {
+    background-size: 100% 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a:hover, a:focus {
+    text-decoration: underline;
+  }
+}
+
     
     @media (prefers-reduced-motion: reduce) {
       a:hover, a:focus {
@@ -453,6 +472,47 @@
     .skip-link:focus {
       top: 6px;
     }
+	
+/* --- WRITING SECTION STYLES (REVISED) --- */
+
+.blog-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.blog-list > li {
+  margin-bottom: 1.5em; 
+}
+
+/* Rule for ONLY the MAIN blog links */
+.blog-list > li > a {
+  display: inline;       /* Explicitly set to inline for animation compatibility */
+  font-weight: 600;      /* Makes it look like a proper title */
+}
+
+/* Rules for the list of sub-links */
+.recommended {
+  list-style-type: "– "; 
+  margin: 0.5em 0 0 1.2em;
+  padding-left: 0.5em;
+}
+
+.recommended li {
+  margin: 0.3em 0;
+}
+
+/* Rules for ONLY the sub-links */
+.recommended a {
+  font-size: 0.95em;
+  font-weight: 400;
+  color: var(--text-color);
+  /* Note: We do NOT need a display property here. Its default behavior is correct. */
+}
+
+.recommended a:hover {
+  color: var(--accent-hover);
+  text-decoration: none; /* Allows the animation to be seen clearly */
+}
   </style>
 </head>
 <body>
@@ -516,16 +576,53 @@
       <p lang="ja">2016年から神奈川県国際施策推進懇談会の委員を務め、現在は相模原市で多文化共生の推進に取り組んでいます。地域社会の多様性を支えるための提案を続けています。</p>
     </section>
 
-    <section class="card" id="writing">
-      <h3 lang="en">✍️ Selected writing</h3>
-      <h3 lang="ja">✍️ 文章</h3>
-      <ul>
-        <li><a href="https://packman.me" target="_blank" rel="noopener" lang="en">Blog at packman.me</a></li>
-        <li><a href="https://packman.me" target="_blank" rel="noopener" lang="ja">ブログ packman.me</a></li>
-        <li><a href="https://www.packman.me" target="_blank" rel="noopener" lang="en">Older essays</a></li>
-        <li><a href="https://www.packman.me" target="_blank" rel="noopener" lang="ja">昔のエッセイ</a></li>
+ <section class="card" id="writing">
+  <h3 lang="en">✍️ Selected writing</h3>
+  <h3 lang="ja">✍️ 文章</h3>
+
+  <ul class="blog-list">
+    <!-- Personal Blog -->
+    <li>
+      <a href="https://packman.me" target="_blank" rel="noopener">
+	  <span lang="en">Personal Blog</span>
+      <span lang="ja">個人のブログ</span></a>
+      <ul class="recommended">
+	  <li>
+       <a href="https://packman.me/a-few-days-in-obihiro" target="_blank" rel="noopener">
+            <span lang="en">A Few Days in Obihiro</span>
+            <span lang="ja">帯広の日々（英語）</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://packman.me/the-shinjuku-seven-lucky-gods-pilgrimage" target="_blank" rel="noopener">
+            <span lang="en">The Shinjuku Seven Lucky Gods Pilgrimage</span>
+            <span lang="ja">新宿七福神の巡り（英語）</span>
+          </a>
+        </li>
       </ul>
-    </section>
+    </li>
+
+    <!-- Company Blog -->
+    <li>
+      <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="en">Company Blog</a>
+      <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="ja">会社のブログ</a>
+      <ul class="recommended">
+        <li>
+          <a href="#" target="_blank" rel="noopener">
+            <span lang="en">Project Update — Recent work highlights</span>
+            <span lang="ja">プロジェクト更新 — 最近の仕事のハイライト</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" target="_blank" rel="noopener">
+            <span lang="en">Team Insights — What we’re learning</span>
+            <span lang="ja">チームの洞察 — 学んでいること</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
 
     <section class="card" id="photos">
       <h3 lang="en">📷 Recent photos</h3>
