@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jason Packman — Teacher • Translator • Traveler</title>
+  <meta name="description" content="Personal website of Jason Packman — teacher, translator, traveler.">
+  <meta name="author" content="Jason Packman">
+  <meta property="og:title" content="Jason Packman - Teacher • Translator • Traveler">
+  <meta property="og:description" content="Personal website of Jason Packman — teacher, translator, traveler.">
+   <style>
+    /* CSS Variables */
+    :root { 
+      --gap: 1em;
+      --primary-bg: #e6f0ff;
+      --card-bg: #f0f7ff;
+      --card-quote-bg: #f5faff;
+      --card-hero-bg: #f6faff;
+      --text-color: #0f172a;
+      --border-radius: 16px;
+      --white: #ffffff;
+      --shadow: 0 8px 30px rgba(2,6,23,.08);
+      --shadow-hover: 0 12px 40px rgba(2,6,23,.15);
+      --accent-color: #3b82f6;
+      --accent-hover: #1d4ed8;
+    }
+
+    /* Removed dark mode - keeping light theme only */
+
+    /* Base styles */
+    * {
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body { 
+      margin: 0; 
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Arial, sans-serif; 
+      background: var(--primary-bg); 
+      color: var(--text-color); 
+      font-size: 16px; 
+      line-height: 1.6;
+      opacity: 0;
+      animation: pageLoad 0.6s ease-out forwards;
+    }
+    
+    @keyframes pageLoad {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Respect user motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *, html {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+    
+    /* Custom text selection */
+    ::selection {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    /* Language toggle transitions */
+    [lang] {
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+      display: block;
+    }
+    
+    /* More specific and robust language hiding */
+    #lang-ja:checked ~ main [lang="en"],
+    #lang-ja:checked ~ header [lang="en"],
+    #lang-ja:checked ~ footer [lang="en"] {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      left: -9999px;
+    }
+    
+    #lang-en:checked ~ main [lang="ja"],
+    #lang-en:checked ~ header [lang="ja"],
+    #lang-en:checked ~ footer [lang="ja"] {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      left: -9999px;
+    }
+
+    /* Language radio buttons - hidden but accessible */
+    #lang-en, #lang-ja {
+      position: absolute;
+      left: -9999px;
+    }
+
+    /* Banner */
+    .banner {
+      width: 100%;
+      height: 200px;
+      background: url('./banner.webp') center/cover no-repeat, linear-gradient(135deg, #3b82f6, #1d4ed8);
+      position: relative;
+    }
+    .banner::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.25);
+    }
+    .banner-text {
+      position: absolute;
+      bottom: 1em;
+      left: 1em;
+      color: var(--white);
+      z-index: 2;
+      transform: translateZ(0);
+      transition: transform 0.1s ease-out;
+    }
+    
+    /* Subtle parallax effect on scroll */
+    @media (prefers-reduced-motion: no-preference) {
+      .banner:hover .banner-text {
+        transform: translateY(-2px) translateZ(0);
+      }
+    }
+    .banner-text h1 { 
+      margin: 0; 
+      font-size: 1.8em; 
+      font-weight: 600;
+    }
+    .banner-text p { 
+      margin: 0; 
+      font-size: 1em; 
+      opacity: 0.9;
+    }
+
+    /* Language toggle */
+    .lang-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 3;
+      display: flex;
+      gap: 0;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 2px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .lang-toggle label {
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      padding: 0.4em 0.8em;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.8);
+      position: relative;
+    }
+    .lang-toggle label:hover,
+    .lang-toggle label:focus {
+      color: white;
+      transform: translateY(-1px);
+    }
+    
+    /* Active language styling with slide effect */
+    #lang-en:checked ~ .banner .lang-toggle label[for="lang-en"],
+    #lang-ja:checked ~ .banner .lang-toggle label[for="lang-ja"] {
+      background: rgba(255,255,255,0.95);
+      color: var(--text-color);
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    /* Layout */
+    .wrap {
+      max-width: 62rem;
+      margin-inline: auto;
+      padding: 24px;
+    }
+
+    /* Cards */
+    .card {
+      padding: 24px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      background: var(--card-bg);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateZ(0);
+    }
+    
+    @media (prefers-reduced-motion: no-preference) {
+      .card {
+        opacity: 0;
+        animation: cardFadeIn 0.6s ease-out forwards;
+        animation-delay: calc(var(--card-index, 0) * 0.1s);
+      }
+      
+      .card:nth-child(1) { --card-index: 1; }
+      .card:nth-child(2) { --card-index: 2; }
+      .card:nth-child(3) { --card-index: 3; }
+      .card:nth-child(4) { --card-index: 4; }
+      .card:nth-child(5) { --card-index: 5; }
+      .card:nth-child(6) { --card-index: 6; }
+      
+      @keyframes cardFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px) translateZ(0);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) translateZ(0);
+        }
+      }
+    }
+    
+    .card:hover {
+      transform: translateY(-4px) translateZ(0);
+      box-shadow: var(--shadow-hover);
+    }
+    .card-quote {
+      background: var(--card-quote-bg);
+    }
+    .card-hero {
+      background: var(--card-hero-bg);
+    }
+
+    /* Typography */
+    h1, h2, h3 {
+      margin-top: 0;
+      line-height: 1.3;
+    }
+    h2 {
+      font-size: 1.5em;
+      color: #1e40af;
+    }
+    h3 {
+      font-size: 1.25em;
+      color: #1e40af;
+      margin-bottom: 0.75em;
+    }
+
+    /* Links */
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      position: relative;
+    }
+    a:hover, a:focus {
+      color: var(--accent-hover);
+      text-decoration: none;
+    }
+    
+    /* Subtle underline animation */
+   /* Links */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  position: relative;
+}
+a:hover, a:focus {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+/* Improved underline animation using background */
+@media (prefers-reduced-motion: no-preference) {
+  a {
+    background-image: linear-gradient(var(--accent-color), var(--accent-color));
+    background-size: 0% 2px;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease, background-size 0.3s ease;
+  }
+  
+  a:hover,
+  a:focus {
+    background-size: 100% 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a:hover, a:focus {
+    text-decoration: underline;
+  }
+}
+
+    
+    @media (prefers-reduced-motion: reduce) {
+      a:hover, a:focus {
+        text-decoration: underline;
+      }
+    }
+
+    /* Photos */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5em;
+      margin-top: 1em;
+    }
+    
+    .photo-item {
+      text-align: center;
+    }
+    
+    .photo-item img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .photo-item img:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    
+    .photo-item p {
+      margin: 0.5em 0 0 0;
+      font-size: 0.9em;
+      color: #64748b;
+      font-style: italic;
+    }
+    
+    @media (max-width: 768px) {
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Footer */
+    footer {
+      background: var(--white);
+      padding: 24px;
+      text-align: center;
+      margin-top: 2em;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1em;
+      margin-bottom: 1em;
+      font-size: 0.95em;
+    }
+    
+    .social-links a {
+      padding: 0.4em 0.9em;
+      border-radius: 7px;
+      background: rgba(59, 130, 246, 0.1);
+      transition: all 0.2s ease;
+      font-weight: 500;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .social-links a:hover {
+      background: rgba(59, 130, 246, 0.2);
+      transform: translateY(-1px);
+    }
+    
+    .footer-text {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 1em;
+    }
+    
+    @media (max-width: 768px) {
+      .social-links {
+        gap: 0.8em;
+      }
+      .social-links a {
+        font-size: 0.9em;
+        padding: 0.4em 0.8em;
+        min-width: 44px;
+        min-height: 44px;
+      }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .wrap {
+        padding: 16px;
+      }
+      .card {
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .banner {
+        height: 150px;
+      }
+      .banner-text h1 {
+        font-size: 1.5em;
+      }
+      .lang-toggle {
+        top: 8px;
+        right: 8px;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      .banner, .lang-toggle { 
+        display: none; 
+      }
+      .card { 
+        box-shadow: none; 
+        border: 1px solid #ccc; 
+        break-inside: avoid;
+      }
+      body { 
+        background: white; 
+        color: black; 
+      }
+      a {
+        color: #000;
+        text-decoration: underline;
+      }
+    }
+
+    /* Focus styles for accessibility */
+    *:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+
+    /* Skip to main content for screen readers */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+    }
+    .skip-link:focus {
+      top: 6px;
+    }
+	
+/* --- WRITING SECTION STYLES (REVISED) --- */
+
+.blog-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.blog-list > li {
+  margin-bottom: 1.5em; 
+}
+
+/* Rule for ONLY the MAIN blog links */
+.blog-list > li > a {
+  display: inline;       /* Explicitly set to inline for animation compatibility */
+  font-weight: 600;      /* Makes it look like a proper title */
+}
+
+/* Rules for the list of sub-links */
+.recommended {
+  list-style-type: "– "; 
+  margin: 0.5em 0 0 1.2em;
+  padding-left: 0.5em;
+}
+
+.recommended li {
+  margin: 0.3em 0;
+}
+
+/* Rules for ONLY the sub-links */
+.recommended a {
+  font-size: 0.95em;
+  font-weight: 400;
+  color: var(--text-color);
+  /* Note: We do NOT need a display property here. Its default behavior is correct. */
+}
+
+.recommended a:hover {
+  color: var(--accent-hover);
+  text-decoration: none; /* Allows the animation to be seen clearly */
+}
+  </style>
+</head>
+<body>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Language radio buttons -->
+  <input type="radio" id="lang-en" name="lang" checked aria-label="Switch to English">
+  <input type="radio" id="lang-ja" name="lang" aria-label="Switch to Japanese">
+
+  <!-- Banner header -->
+  <header class="banner">
+    <nav class="lang-toggle" aria-label="Language selection">
+      <label for="lang-en">EN</label>
+      <label for="lang-ja">日本語</label>
+    </nav>
+    <div class="banner-text">
+      <h1>Jason Packman</h1>
+      <p lang="en">Teacher · Translator · Traveler</p>
+      <p lang="ja">教師・翻訳者・旅人</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="card card-quote" id="quote">
+      <p lang="en" style="font-size: 1.25em; font-style: italic; color: #1e40af; line-height: 1.4;">"Create a website that expresses something about you who are that won't fit into the template available to you on a social networking site"</p>
+      <p lang="ja" style="font-size: 1.25em; font-style: italic; color: #1e40af; line-height: 1.4;">「ソーシャルネットワーキングサイトのテンプレートに収まらない、あなたという人間を表現するウェブサイトを作ろう」</p>
+      <p style="text-align:right; font-style:italic; margin-top: 1.5em; font-size: 0.95em; color: #64748b;">— Jared Lanier<br><em>You Are Not a Gadget</em></p>
+    </section>
+
+    <section class="card card-hero" id="top">
+      <h2 lang="en">Hi, I'm Jason — I teach, translate, and travel between ideas and places.</h2>
+      <h2 lang="ja">こんにちは、ジェイサンです。アイデアとロケーションの間を旅しながら、教え、翻訳し、経験を広げています。</h2>
+      <p lang="en">I'm based in Sagamihara, Japan. I speak English and Japanese, and I like long bike rides and good conversations.</p>
+      <p lang="ja">神奈川県相模原市に住んでいます。英語と日本語を話し、サイクリングと会話が好きです。</p>
+    </section>
+
+    <section class="card" id="about">
+      <h3 lang="en">👤 About</h3>
+      <h3 lang="ja">👤 自己紹介</h3>
+      <p lang="en">I grew up in California and have lived in Los Angeles, Singapore, Ojiya, Yokohama, and La Jolla. Since moving to Sagamihara, I've focused on teaching, translation, and helping people communicate across languages and cultures. Outside of work, you'll find me cycling long distances or reading.</p>
+      <p lang="ja">カリフォルニア州で育ち、ロサンゼルス、シンガポール、小千谷、横浜、ラホヤに住んできました。現在は神奈川県相模原市に拠点を置き、英語教育や翻訳を通じて、言語や文化をつなぐ仕事をしています。趣味は長距離サイクリングと読書です。</p>
+    </section>
+
+    <section class="card" id="work">
+      <h3 lang="en">💼 What I do</h3>
+      <h3 lang="ja">💼 仕事</h3>
+      <ul>
+        <li lang="en"><strong>Teaching & Curriculum</strong> — I design and teach English programs for secondary schools and adults, including writing, debate, and study-abroad preparation.</li>
+        <li lang="ja"><strong>教育とカリキュラム設計</strong> — 中高生や成人向けに、英語・ライティング・ディベート・留学準備などのプログラムを設計・指導しています。</li>
+        <li lang="en"><strong>Translation & Editing</strong> — I work with Japanese and English texts, from professional reports to creative writing.</li>
+        <li lang="ja"><strong>翻訳と編集</strong> — 日本語・英語の専門文書から文章作品まで幅広く対応しています。</li>
+      </ul>
+      <p><a href="./resume.pdf">Résumé</a></p>
+    </section>
+
+    <section class="card" id="community">
+      <h3 lang="en">🌍 Community Involvement</h3>
+      <h3 lang="ja">🌍 地域での活動</h3>
+      <p lang="en">I've worked on multicultural policy since 2016, starting with Kanagawa Prefecture's Advisory Board and continuing today in Sagamihara City, where I advise on how to better support diverse communities.</p>
+      <p lang="ja">2016年から神奈川県国際施策推進懇談会の委員を務め、現在は相模原市で多文化共生の推進に取り組んでいます。地域社会の多様性を支えるための提案を続けています。</p>
+    </section>
+
+ <section class="card" id="writing">
+  <h3 lang="en">✍️ Selected writing</h3>
+  <h3 lang="ja">✍️ 文章</h3>
+
+  <ul class="blog-list">
+    <!-- Personal Blog -->
+    <li>
+      <a href="https://packman.me" target="_blank" rel="noopener">
+	  <span lang="en">Personal Blog</span>
+      <span lang="ja">個人のブログ</span></a>
+      <ul class="recommended">
+	  <li>
+       <a href="https://packman.me/a-few-days-in-obihiro" target="_blank" rel="noopener">
+            <span lang="en">A Few Days in Obihiro</span>
+            <span lang="ja">帯広の日々（英語）</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://packman.me/the-shinjuku-seven-lucky-gods-pilgrimage" target="_blank" rel="noopener">
+            <span lang="en">The Shinjuku Seven Lucky Gods Pilgrimage</span>
+            <span lang="ja">新宿七福神の巡り（英語）</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Company Blog -->
+    <li>
+      <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="en">Company Blog</a>
+      <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="ja">会社のブログ</a>
+      <ul class="recommended">
+        <li>
+          <a href="#" target="_blank" rel="noopener">
+            <span lang="en">Project Update — Recent work highlights</span>
+            <span lang="ja">プロジェクト更新 — 最近の仕事のハイライト</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" target="_blank" rel="noopener">
+            <span lang="en">Team Insights — What we’re learning</span>
+            <span lang="ja">チームの洞察 — 学んでいること</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+    <section class="card" id="photos">
+      <h3 lang="en">📷 Recent photos</h3>
+      <h3 lang="ja">📷 最近の写真</h3>
+      <div class="photo-grid">
+        <div class="photo-item">
+          <img src="./photo1.webp" alt="Photo description" loading="lazy">
+          <p lang="en">Brief caption or location</p>
+          <p lang="ja">簡単なキャプションや場所</p>
+        </div>
+        <div class="photo-item">
+          <img src="./photo2.webp" alt="Photo description" loading="lazy">
+          <p lang="en">Another caption</p>
+          <p lang="ja">別のキャプション</p>
+        </div>
+        <div class="photo-item">
+          <img src="./photo3.webp" alt="Photo description" loading="lazy">
+          <p lang="en">Third photo caption</p>
+          <p lang="ja">三番目の写真のキャプション</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="places">
+      <h3 lang="en">🌏 Local places I love</h3>
+      <h3 lang="ja">🌏 お気に入りの場所</h3>
+      <ul>
+        <li><strong>Restaurant/Museum/Café Name</strong> <span lang="en">— What makes this place special to you</span><span lang="ja">— この場所の何が特別なのか</span></li>
+        <li><strong>Another Local Spot</strong> <span lang="en">— Why you recommend it</span><span lang="ja">— なぜおすすめするのか</span></li>
+        <li><strong>A Hidden Gem</strong> <span lang="en">— What you discovered there</span><span lang="ja">— そこで発見したこと</span></li>
+      </ul>
+      
+      <h4 lang="en">Recent discoveries:</h4>
+      <h4 lang="ja">最近の発見：</h4>
+      <ul>
+        <li><strong>New Place You Found</strong> <span lang="en">— First impressions or what caught your attention</span><span lang="ja">— 第一印象や注目したこと</span></li>
+        <li><strong>Another Discovery</strong> <span lang="en">— Worth checking out because...</span><span lang="ja">— チェックする価値がある理由は...</span></li>
+      </ul>
+    </section>
+
+    <section class="card" id="podcasts">
+      <h3 lang="en">🎧 Podcasts I listen to</h3>
+      <h3 lang="ja">🎧 よく聞くポッドキャスト</h3>
+      <ul>
+        <li><a href="#" target="_blank" rel="noopener">Podcast Name 1</a> <span lang="en">— Brief description of why you like it</span><span lang="ja">— なぜ気に入っているかの簡単な説明</span></li>
+        <li><a href="#" target="_blank" rel="noopener">Podcast Name 2</a> <span lang="en">— Brief description</span><span lang="ja">— 簡単な説明</span></li>
+        <li><a href="#" target="_blank" rel="noopener">Podcast Name 3</a> <span lang="en">— Brief description</span><span lang="ja">— 簡単な説明</span></li>
+      </ul>
+      
+      <h4 lang="en">Recent listens:</h4>
+      <h4 lang="ja">最近聞いたもの：</h4>
+      <ul>
+        <li><a href="#" target="_blank" rel="noopener">Episode Title</a> <span lang="en">— Your brief thoughts or what caught your attention</span><span lang="ja">— あなたの感想や注目したポイント</span></li>
+        <li><a href="#" target="_blank" rel="noopener">Another Episode</a> <span lang="en">— What you found interesting</span><span lang="ja">— 興味深いと思ったこと</span></li>
+      </ul>
+    </section>
+
+    <section class="card" id="websites">
+      <h3 lang="en">🔗 Websites I visit</h3>
+      <h3 lang="ja">🔗 よく見るウェブサイト</h3>
+      <ul>
+        <li><a href="#" target="_blank" rel="noopener">Website Name 1</a> <span lang="en">— What you find valuable about it</span><span lang="ja">— 何が価値あるかの説明</span></li>
+        <li><a href="#" target="_blank" rel="noopener">Website Name 2</a> <span lang="en">— Brief note</span><span lang="ja">— 簡単なメモ</span></li>
+        <li><a href="#" target="_blank" rel="noopener">Website Name 3</a> <span lang="en">— Why it's interesting</span><span lang="ja">— なぜ興味深いか</span></li>
+      </ul>
+      
+      <h4 lang="en">Worth reading:</h4>
+      <h4 lang="ja">読む価値あり：</h4>
+      <ul>
+        <li><a href="#" target="_blank" rel="noopener">Article or Post Title</a> <span lang="en">— Why you're sharing this</span><span lang="ja">— なぜこれをシェアするのか</span></li>
+        <li><a href="#" target="_blank" rel="noopener">Another Article</a> <span lang="en">— What resonated with you</span><span lang="ja">— 心に響いたこと</span></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="wrap">
+    <div class="social-links">
+      <a href="mailto:hello@jasonpackman.com">Email</a>
+      <a href="https://www.linkedin.com/in/jasonpackman" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://twitter.com/XinJeisan" target="_blank" rel="noopener">Twitter</a>
+      <a href="https://www.youtube.com/user/xinjeisan" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://en.wikipedia.org/wiki/User:XinJeisan" target="_blank" rel="noopener">Wikipedia</a>
+      <a href="https://github.com/yourhandle" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://mastodon.social/@yourhandle" target="_blank" rel="noopener">Mastodon</a>
+    </div>
+    
+    <div class="footer-text">
+      <small lang="en">Jason Packman · Site scaffolded with LLMs, customized by me</small><br>
+      <small lang="ja">ジェイサン・パックマン · LLMで作成、カスタマイズ済み</small>
+    </div>
+  </footer>
+</body>
+</html>
