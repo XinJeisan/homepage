@@ -11,21 +11,25 @@
    <style>
     /* CSS Variables */
     :root { 
-      --gap: 1em;
-      --primary-bg: #e6f0ff;
-      --card-bg: #f0f7ff;
-      --card-quote-bg: #f5faff;
-      --card-hero-bg: #f6faff;
-      --text-color: #0f172a;
+      --gap: 1rem;
+      --primary-bg: #f0f7ed;
+      --card-bg: #f7faf5;
+      --card-quote-bg: #f9fbf7;
+      --card-hero-bg: #fafcf8;
+      --text-color: #1a2e1a;
+      --meta-color: #5a6b5a;
       --border-radius: 16px;
       --white: #ffffff;
-      --shadow: 0 8px 30px rgba(2,6,23,.08);
-      --shadow-hover: 0 12px 40px rgba(2,6,23,.15);
-      --accent-color: #3b82f6;
-      --accent-hover: #1d4ed8;
+      --shadow: 0 8px 30px rgba(26,46,26,.08);
+      --shadow-hover: 0 12px 40px rgba(26,46,26,.15);
+      --accent-color: #16a34a;
+      --accent-hover: #15803d;
+      --badge-bg: #16a34a;
+      --badge-color: #fff;
+      --badge-radius: 4px;
+      --badge-padding: 2px 6px;
+      --meta-font-size: 0.75rem;
     }
-
-    /* Removed dark mode - keeping light theme only */
 
     /* Base styles */
     * {
@@ -74,30 +78,23 @@
       color: white;
     }
 
-    /* Language toggle transitions */
+    /* Language toggle - simplified approach */
     [lang] {
       opacity: 1;
       transition: opacity 0.3s ease-in-out;
-      display: block;
     }
     
-    /* More specific and robust language hiding */
+    /* Simplified language hiding */
     #lang-ja:checked ~ main [lang="en"],
     #lang-ja:checked ~ header [lang="en"],
     #lang-ja:checked ~ footer [lang="en"] {
-      opacity: 0;
-      pointer-events: none;
-      position: absolute;
-      left: -9999px;
+      display: none;
     }
     
     #lang-en:checked ~ main [lang="ja"],
     #lang-en:checked ~ header [lang="ja"],
     #lang-en:checked ~ footer [lang="ja"] {
-      opacity: 0;
-      pointer-events: none;
-      position: absolute;
-      left: -9999px;
+      display: none;
     }
 
     /* Language radio buttons - hidden but accessible */
@@ -110,7 +107,7 @@
     .banner {
       width: 100%;
       height: 200px;
-      background: url('./banner.webp') center/cover no-repeat, linear-gradient(135deg, #3b82f6, #1d4ed8);
+      background: url('./banner.webp') center/cover no-repeat, linear-gradient(135deg, #16a34a, #15803d);
       position: relative;
     }
     .banner::after {
@@ -121,28 +118,27 @@
     }
     .banner-text {
       position: absolute;
-      bottom: 1em;
-      left: 1em;
+      bottom: 1rem;
+      left: 1rem;
       color: var(--white);
       z-index: 2;
-      transform: translateZ(0);
       transition: transform 0.1s ease-out;
     }
     
-    /* Subtle parallax effect on scroll */
+    /* Subtle hover effect */
     @media (prefers-reduced-motion: no-preference) {
       .banner:hover .banner-text {
-        transform: translateY(-2px) translateZ(0);
+        transform: translateY(-2px);
       }
     }
     .banner-text h1 { 
       margin: 0; 
-      font-size: 1.8em; 
+      font-size: 1.8rem; 
       font-weight: 600;
     }
     .banner-text p { 
       margin: 0; 
-      font-size: 1em; 
+      font-size: 1rem; 
       opacity: 0.9;
     }
 
@@ -164,8 +160,8 @@
       background: transparent;
       border: none;
       border-radius: 4px;
-      padding: 0.4em 0.8em;
-      font-size: 0.9em;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.3s ease;
       font-weight: 500;
@@ -183,7 +179,7 @@
       transform: translateY(-1px);
     }
     
-    /* Active language styling with slide effect */
+    /* Active language styling */
     #lang-en:checked ~ .banner .lang-toggle label[for="lang-en"],
     #lang-ja:checked ~ .banner .lang-toggle label[for="lang-ja"] {
       background: rgba(255,255,255,0.95);
@@ -196,18 +192,17 @@
     .wrap {
       max-width: 62rem;
       margin-inline: auto;
-      padding: 24px;
+      padding: 1.5rem;
     }
 
     /* Cards */
     .card {
-      padding: 24px;
+      padding: 1.5rem;
       border-radius: var(--border-radius);
       box-shadow: var(--shadow);
-      margin-bottom: 20px;
+      margin-bottom: 1.25rem;
       background: var(--card-bg);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateZ(0);
     }
     
     @media (prefers-reduced-motion: no-preference) {
@@ -227,17 +222,17 @@
       @keyframes cardFadeIn {
         from {
           opacity: 0;
-          transform: translateY(20px) translateZ(0);
+          transform: translateY(20px);
         }
         to {
           opacity: 1;
-          transform: translateY(0) translateZ(0);
+          transform: translateY(0);
         }
       }
     }
     
     .card:hover {
-      transform: translateY(-4px) translateZ(0);
+      transform: translateY(-4px);
       box-shadow: var(--shadow-hover);
     }
     .card-quote {
@@ -253,13 +248,13 @@
       line-height: 1.3;
     }
     h2 {
-      font-size: 1.5em;
-      color: #1e40af;
+      font-size: 1.5rem;
+      color: #166534;
     }
     h3 {
-      font-size: 1.25em;
-      color: #1e40af;
-      margin-bottom: 0.75em;
+      font-size: 1.25rem;
+      color: #166534;
+      margin-bottom: 0.75rem;
     }
 
     /* Links */
@@ -274,44 +269,23 @@
       color: var(--accent-hover);
       text-decoration: none;
     }
-    
-    /* Subtle underline animation */
-   /* Links */
-a {
-  color: var(--accent-color);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  position: relative;
-}
-a:hover, a:focus {
-  color: var(--accent-hover);
-  text-decoration: none;
-}
 
-/* Improved underline animation using background */
-@media (prefers-reduced-motion: no-preference) {
-  a {
-    background-image: linear-gradient(var(--accent-color), var(--accent-color));
-    background-size: 0% 2px;
-    background-position: left bottom;
-    background-repeat: no-repeat;
-    transition: all 0.3s ease, background-size 0.3s ease;
-  }
-  
-  a:hover,
-  a:focus {
-    background-size: 100% 2px;
-  }
-}
+    /* Improved underline animation */
+    @media (prefers-reduced-motion: no-preference) {
+      a {
+        background-image: linear-gradient(var(--accent-color), var(--accent-color));
+        background-size: 0% 2px;
+        background-position: left bottom;
+        background-repeat: no-repeat;
+        transition: all 0.3s ease, background-size 0.3s ease;
+      }
+      
+      a:hover,
+      a:focus {
+        background-size: 100% 2px;
+      }
+    }
 
-@media (prefers-reduced-motion: reduce) {
-  a:hover, a:focus {
-    text-decoration: underline;
-  }
-}
-
-    
     @media (prefers-reduced-motion: reduce) {
       a:hover, a:focus {
         text-decoration: underline;
@@ -322,8 +296,8 @@ a:hover, a:focus {
     .photo-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5em;
-      margin-top: 1em;
+      gap: 1.5rem;
+      margin-top: 1rem;
     }
     
     .photo-item {
@@ -346,9 +320,9 @@ a:hover, a:focus {
     }
     
     .photo-item p {
-      margin: 0.5em 0 0 0;
-      font-size: 0.9em;
-      color: #64748b;
+      margin: 0.5rem 0 0 0;
+      font-size: 0.9rem;
+      color: var(--meta-color);
       font-style: italic;
     }
     
@@ -361,9 +335,9 @@ a:hover, a:focus {
     /* Footer */
     footer {
       background: var(--white);
-      padding: 24px;
+      padding: 1.5rem;
       text-align: center;
-      margin-top: 2em;
+      margin-top: 2rem;
       border-top: 1px solid #e2e8f0;
     }
     
@@ -371,15 +345,15 @@ a:hover, a:focus {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 1em;
-      margin-bottom: 1em;
-      font-size: 0.95em;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
     }
     
     .social-links a {
-      padding: 0.4em 0.9em;
+      padding: 0.4rem 0.9rem;
       border-radius: 7px;
-      background: rgba(59, 130, 246, 0.1);
+      background: rgba(22, 163, 74, 0.1);
       transition: all 0.2s ease;
       font-weight: 500;
       min-width: 44px;
@@ -390,41 +364,113 @@ a:hover, a:focus {
     }
     
     .social-links a:hover {
-      background: rgba(59, 130, 246, 0.2);
+      background: rgba(22, 163, 74, 0.2);
       transform: translateY(-1px);
     }
     
     .footer-text {
       border-top: 1px solid #e2e8f0;
-      padding-top: 1em;
+      padding-top: 1rem;
     }
     
     @media (max-width: 768px) {
       .social-links {
-        gap: 0.8em;
+        gap: 0.8rem;
       }
       .social-links a {
-        font-size: 0.9em;
-        padding: 0.4em 0.8em;
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
         min-width: 44px;
         min-height: 44px;
       }
     }
 
+    /* Writing section styles */
+    .blog-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .blog-list > li {
+      margin-bottom: 1.5rem; 
+    }
+
+    /* Main blog links */
+    .blog-list > li > a {
+      display: inline;
+      font-weight: 600;
+    }
+
+    /* Sub-links */
+    .recommended {
+      list-style-type: "– "; 
+      margin: 0.5rem 0 0 1.2rem;
+      padding-left: 0.5rem;
+    }
+
+    .recommended li {
+      margin: 0.3rem 0;
+    }
+
+    .recommended a {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--text-color);
+    }
+
+    .recommended a:hover {
+      color: var(--accent-hover);
+      text-decoration: none;
+    }
+
+    /* Card metadata */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    /* Badge system - simplified */
+    .badge {
+      font-size: var(--meta-font-size);
+      background: var(--badge-bg);
+      color: var(--badge-color);
+      border-radius: var(--badge-radius);
+      padding: var(--badge-padding);
+    }
+
+    /* Updated timestamp */
+    .updated-on {
+      font-size: var(--meta-font-size);
+      color: var(--meta-color);
+    }
+
+    /* Archive link */
+    .archive-link {
+      margin-left: auto;
+      font-size: var(--meta-font-size);
+      color: var(--meta-color);
+      text-decoration: none;
+    }
+    .archive-link:hover {
+      text-decoration: underline;
+    }
+
     /* Responsive design */
     @media (max-width: 768px) {
       .wrap {
-        padding: 16px;
+        padding: 1rem;
       }
       .card {
-        padding: 20px;
-        margin-bottom: 16px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
       }
       .banner {
         height: 150px;
       }
       .banner-text h1 {
-        font-size: 1.5em;
+        font-size: 1.5rem;
       }
       .lang-toggle {
         top: 8px;
@@ -472,47 +518,6 @@ a:hover, a:focus {
     .skip-link:focus {
       top: 6px;
     }
-	
-/* --- WRITING SECTION STYLES (REVISED) --- */
-
-.blog-list {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.blog-list > li {
-  margin-bottom: 1.5em; 
-}
-
-/* Rule for ONLY the MAIN blog links */
-.blog-list > li > a {
-  display: inline;       /* Explicitly set to inline for animation compatibility */
-  font-weight: 600;      /* Makes it look like a proper title */
-}
-
-/* Rules for the list of sub-links */
-.recommended {
-  list-style-type: "– "; 
-  margin: 0.5em 0 0 1.2em;
-  padding-left: 0.5em;
-}
-
-.recommended li {
-  margin: 0.3em 0;
-}
-
-/* Rules for ONLY the sub-links */
-.recommended a {
-  font-size: 0.95em;
-  font-weight: 400;
-  color: var(--text-color);
-  /* Note: We do NOT need a display property here. Its default behavior is correct. */
-}
-
-.recommended a:hover {
-  color: var(--accent-hover);
-  text-decoration: none; /* Allows the animation to be seen clearly */
-}
   </style>
 </head>
 <body>
@@ -538,9 +543,9 @@ a:hover, a:focus {
 
   <main id="main" class="wrap">
     <section class="card card-quote" id="quote">
-      <p lang="en" style="font-size: 1.25em; font-style: italic; color: #1e40af; line-height: 1.4;">"Create a website that expresses something about you who are that won't fit into the template available to you on a social networking site"</p>
-      <p lang="ja" style="font-size: 1.25em; font-style: italic; color: #1e40af; line-height: 1.4;">「ソーシャルネットワーキングサイトのテンプレートに収まらない、あなたという人間を表現するウェブサイトを作ろう」</p>
-      <p style="text-align:right; font-style:italic; margin-top: 1.5em; font-size: 0.95em; color: #64748b;">— Jared Lanier<br><em>You Are Not a Gadget</em></p>
+      <p lang="en" style="font-size: 1.25rem; font-style: italic; color: #166534; line-height: 1.4;">"Create a website that expresses something about you who are that won't fit into the template available to you on a social networking site"</p>
+      <p lang="ja" style="font-size: 1.25rem; font-style: italic; color: #166534; line-height: 1.4;">「ソーシャルネットワーキングサイトのテンプレートに収まらない、あなたという人間を表現するウェブサイトを作ろう」</p>
+      <p style="text-align:right; font-style:italic; margin-top: 1.5rem; font-size: 0.95rem; color: #5a6b5a;">— Jared Lanier<br><em>You Are Not a Gadget</em></p>
     </section>
 
     <section class="card card-hero" id="top">
@@ -552,106 +557,131 @@ a:hover, a:focus {
 
     <section class="card" id="about">
       <h3 lang="en">👤 Explorations in Self</h3>
-      <h3 lang="ja">👤 自己への探求<</h3>
-      <p lang="en">I live with my wife in Sagamihara, Kanagawa, Japan. Somehow I've been here for more than 10 years. Before that I lived in San Mateo, where I was born, followed by Los Angeles, Singapore, Ojiya, Yokohama, and San Diego. I like traveling, either far way by train, bus, or ferry, or nearby by bicycle. While traveling I check out sites from the Tora-san films. In addition to making many friends because of my interest in Tora-san, I have been on TV here in Japan not once but twice because of Tora-san. I also enjoy checking out churches, temples, shrines as well as locally owned shops and restaurants as well as museums. I was able to do all of that in 2024 on a trip through the Goto Islands during Holy Week. Recently on Sundays you can find me at one of our nearby Catholic Churches for Sunday Mass followed by my Japanese lesson in Machida, as I continue to work towards passing the JLPT level N1.  </p>
+      <h3 lang="ja">👤 心への探求</h3>
+      <p lang="en">I lived abroad, specifically in Japan, for most of my adult life. I currently live with my wife in Sagamihara, Kanagawa, Japan. Somehow I've been here for more than 10 years. Before that I lived in San Mateo, where I was born, followed by Los Angeles, Singapore, Ojiya, Yokohama, and San Diego. I like traveling, either far way by train, bus, or ferry, or nearby by bicycle. While traveling I check out sites from the Tora-san films. In addition to making many friends because of my interest in Tora-san, I have been on TV here in Japan not once but twice because of Tora-san. I also enjoy checking out churches, temples, shrines as well as locally owned shops and restaurants as well as museums. I was able to do all of that in 2024 on a trip through the Goto Islands during Holy Week. Recently on Sundays you can find me at one of our nearby Catholic Churches for Sunday Mass followed by my Japanese lesson in Machida, as I continue to work towards passing the JLPT level N1.</p>
       <p lang="ja">カリフォルニア州で育ち、ロサンゼルス、シンガポール、小千谷、横浜、ラホヤに住んできました。現在は神奈川県相模原市に拠点を置き、英語教育や翻訳を通じて、言語や文化をつなぐ仕事をしています。趣味は長距離サイクリングと読書です。</p>
+
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
+      </div>
     </section>
 
     <section class="card" id="community">
       <h3 lang="en">🌍 Explorations in Community</h3>
       <h3 lang="ja">🌍 つながりへの探求</h3>
-      <p lang="en">I am a member of my local neighorhood association, known as chonaikai in Japanese as well as particpate in a daily, neibourhood rajio taiso.  I have also paricipated in encouraging an inclusive society while I lived in Japan. Going back to when I was a participanton the JET programme in the late 1990s in Niigata, I helped organize meetings with the local non-Japanese population, which lead to local Japanese classes as well as a multilingual poster on the rules of garbage collection. More recently, I have paricipated on advisory panels for the Governor of Kanagawa and the City of Sagamihara to discuss issues and propose policies to promote and encourage an inclusive society at the prefectural and municipal level. </p>
+      <p lang="en">I am a member of my local neighorhood association, known as chonaikai in Japanese as well as particpate in a daily, neibourhood rajio taiso. I have also paricipated in encouraging an inclusive society while I lived in Japan. Going back to when I was a participanton the JET programme in the late 1990s in Niigata, I helped organize meetings with the local non-Japanese population, which lead to local Japanese classes as well as a multilingual poster on the rules of garbage collection. More recently, I have paricipated on advisory panels for the Governor of Kanagawa and the City of Sagamihara to discuss issues and propose policies to promote and encourage an inclusive society at the prefectural and municipal level.</p>
       <p lang="ja">2016年から神奈川県国際施策推進懇談会の委員を務め、現在は相模原市で多文化共生の推進に取り組んでいます。地域社会の多様性を支えるための提案を続けています。</p>
+
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
+      </div>
     </section>
-	
-	   <section class="card" id="work">
+
+    <section class="card" id="work">
       <h3 lang="en">💼 Explorations in Practice</h3>
       <h3 lang="ja">💼 営みへの探求</h3>
       <ul>
-        <li lang="en">Teaching pays the bills but it is also what I love doing. I have been teaching since I came over to Japan on the JET programme and have taught all levels, from elementary school to university students as well as adults. Teaching in a traditional school setting can be stressful, working with both children and adults who haven't chosen to be together, all with different ideas about what they should be learning and how they should be learning. It can be frustrating for people who want to rise above medeocraticy but there is nothing better when it all works out and you make a connection with that one student succeeds or a disagreement with a collegue ends up with something new and wonderful.  In addition as the Chief of English Services at Project Genius, I assist my company's teachers, office staff, and owner with a variety of curriculum and interpersonal issues. In that capacity I have overseen short term courses, substitute with little notice, guest teach at schools, and interview and help place teachers at new client-schools. </li>
+        <li lang="en">Teaching pays the bills but it is also what I love doing. I have been teaching since I came over to Japan on the JET programme and have taught all levels, from elementary school to university students as well as adults. Teaching in a traditional school setting can be stressful, working with both children and adults who haven't chosen to be together, all with different ideas about what they should be learning and how they should be learning. It can be frustrating for people who want to rise above medeocraticy but there is nothing better when it all works out and you make a connection with that one student succeeds or a disagreement with a collegue ends up with something new and wonderful. In addition as the Chief of English Services at Project Genius, I assist my company's teachers, office staff, and owner with a variety of curriculum and interpersonal issues. In that capacity I have overseen short term courses, substitute with little notice, guest teach at schools, and interview and help place teachers at new client-schools. Teaching is about creating spaces where students can grow and learn. This means sometimes I can seem too serious, other times not serious enough. But it is about getting to know students, what they are interested in and what they are capable of doing. Not talking down to them but also not accomidating them</li>
         <li lang="ja"><strong>教育とカリキュラム設計</strong> — 中高生や成人向けに、英語・ライティング・ディベート・留学準備などのプログラムを設計・指導しています。</li>
         <li lang="en"><strong>Translation & Editing</strong> — I work with Japanese and English texts, from professional reports to creative writing.</li>
         <li lang="ja"><strong>翻訳と編集</strong> — 日本語・英語の専門文書から文章作品まで幅広く対応しています。</li>
       </ul>
       <p><a href="./resume.pdf">Résumé</a></p>
+      
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
+      </div>
     </section>
 
- <section class="card" id="writing">
-  <h3 lang="en">✍️ Explorations in Thought</h3>
-  <h3 lang="ja">✍️ 思考への探求</h3>
+    <section class="card" id="writing">
+      <h3 lang="en">✍️ Explorations in Voice</h3>
+      <h3 lang="ja">✍️ 声への探求</h3>
 
-  <ul class="blog-list">
-    <!-- Personal Blog -->
-    <li>
-      <a href="https://packman.me" target="_blank" rel="noopener">
-	  <span lang="en">Personal Blog</span>
-      <span lang="ja">個人のブログ</span></a>
-      <ul class="recommended">
-	  <li>
-       <a href="https://packman.me/a-few-days-in-obihiro" target="_blank" rel="noopener">
-            <span lang="en">A Few Days in Obihiro</span>
-            <span lang="ja">帯広の日々（英語）</span>
-          </a>
-        </li>
+      <ul class="blog-list">
+        <!-- Personal Blog -->
         <li>
-          <a href="https://packman.me/the-shinjuku-seven-lucky-gods-pilgrimage" target="_blank" rel="noopener">
-            <span lang="en">The Shinjuku Seven Lucky Gods Pilgrimage</span>
-            <span lang="ja">新宿七福神の巡り（英語）</span>
+          <a href="https://packman.me" target="_blank" rel="noopener">
+            <span lang="en">Personal Blog</span>
+            <span lang="ja">個人のブログ</span>
           </a>
+          <ul class="recommended">
+            <li>
+              <a href="https://packman.me/a-few-days-in-obihiro" target="_blank" rel="noopener">
+                <span lang="en">A Few Days in Obihiro</span>
+                <span lang="ja">帯広の日々（英語）</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://packman.me/the-shinjuku-seven-lucky-gods-pilgrimage" target="_blank" rel="noopener">
+                <span lang="en">The Shinjuku Seven Lucky Gods Pilgrimage</span>
+                <span lang="ja">新宿七福神の巡り（英語）</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Company Blog -->
+        <li>
+          <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="en">Company Blog</a>
+          <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="ja">会社のブログ</a>
+          <ul class="recommended">
+            <li>
+              <a href="https://projectgenius.tokyo/2025/06/30/choosing-students-the-new-fashioned-way/" target="_blank" rel="noopener">
+                <span lang="en">Choosing Students the New-Fashioned Way</span>
+                <span lang="ja">レッスン中で生徒の選びかった　（英語）</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://projectgenius.tokyo/2024/09/20/occasionally-something-beautiful/" target="_blank" rel="noopener">
+                <span lang="en">Occasionally Something Beautiful</span>
+                <span lang="ja">時々美しくなり　（英語）</span>
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
-    </li>
-
-    <!-- Company Blog -->
-    <li>
-      <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="en">Company Blog</a>
-      <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="ja">会社のブログ</a>
-      <ul class="recommended">
-        <li>
-          <a href="https://projectgenius.tokyo/2025/06/30/choosing-students-the-new-fashioned-way/" target="_blank" rel="noopener">
-            <span lang="en">Choosing Students the New-Fashioned Way</span>
-            <span lang="ja">レッスン中で生徒の選びかった　（英語）</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://projectgenius.tokyo/2024/09/20/occasionally-something-beautiful/" target="_blank" rel="noopener">
-            <span lang="en">Occasionally Something Beautiful</span>
-            <span lang="ja">時々美しくなり　（英語）</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</section>
+      
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
+      </div>
+    </section>
 
     <section class="card" id="photos">
       <h3 lang="en">📷 Explorations in Sight</h3>
       <h3 lang="ja">📷 視野への探求</h3>
       <div class="photo-grid">
         <div class="photo-item">
-          <img src="./photo1.webp" alt="Photo description" loading="lazy">
+          <img src="./photo1.webp" alt="A scenic view of Obihiro, Japan with traditional architecture" loading="lazy">
           <p lang="en">Obihiro, Japan</p>
           <p lang="ja">帯広</p>
         </div>
         <div class="photo-item">
-          <img src="./photo2.webp" alt="Photo description" loading="lazy">
+          <img src="./photo2.webp" alt="Jason wearing traditional Chijimi Yukata in Niigata" loading="lazy">
           <p lang="en">Chijimi Yukata, Niigata</p>
           <p lang="ja">新潟市で縮浴衣</p>
         </div>
         <div class="photo-item">
-          <img src="./photo3.webp" alt="Photo description" loading="lazy">
-          <p lang="en">Third photo caption</p>
-          <p lang="ja">三番目の写真のキャプション</p>
+          <img src="./photo3.webp" alt="Travel photography from Japan" loading="lazy">
+          <p lang="en">Travel memories</p>
+          <p lang="ja">旅の思い出</p>
         </div>
+      </div>
+
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
       </div>
     </section>
 
     <section class="card" id="places">
       <h3 lang="en">🌏 Explorations in Space</h3>
-      <h3 lang="ja">🌏 空間への探求<</h3>
+      <h3 lang="ja">🌏 空間への探求</h3>
       <ul>
-        <li><strong><a href ="https://www.tnm.jp/" target="_blank" rel="noopener">Tokyo National Museum</a></strong> <span lang="en">— I went here on my first trip to Tokyo. These days I am a member and go to see the Zen and Buddhist sculpure sections in the main building and the Chinese paintings in Room 8 of the Toyokan several times a year.</span><span lang="ja">— 初めて東京に来た時に行った博物館だけど、、今は会員になって、東京でよく楽しんでいる場所です。本
-		館2階の禅コーナーと1階の仏教彫刻、東洋館4階の中国絵画をよく見に行く。</span></li>
+        <li><strong><a href="https://www.tnm.jp/" target="_blank" rel="noopener">Tokyo National Museum</a></strong> <span lang="en">— I went here on my first trip to Tokyo. These days I am a member and go to see the Zen and Buddhist sculpure sections in the main building and the Chinese paintings in Room 8 of the Toyokan several times a year.</span><span lang="ja">— 初めて東京に来た時に行った博物館だけど、、今は会員になって、東京でよく楽しんでいる場所です。本館2階の禅コーナーと1階の仏教彫刻、東洋館4階の中国絵画をよく見に行く。</span></li>
         <li><strong>Another Local Spot</strong> <span lang="en">— Why you recommend it</span><span lang="ja">— なぜおすすめするのか</span></li>
         <li><strong>A Hidden Gem</strong> <span lang="en">— What you discovered there</span><span lang="ja">— そこで発見したこと</span></li>
       </ul>
@@ -662,13 +692,18 @@ a:hover, a:focus {
         <li><strong>New Place You Found</strong> <span lang="en">— First impressions or what caught your attention</span><span lang="ja">— 第一印象や注目したこと</span></li>
         <li><strong>Another Discovery</strong> <span lang="en">— Worth checking out because...</span><span lang="ja">— チェックする価値がある理由は...</span></li>
       </ul>
+
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
+      </div>
     </section>
 
     <section class="card" id="podcasts">
       <h3 lang="en">🎧 Explorations in Sound</h3>
-      <h3 lang="ja">🎧 音への探求</h3>
+      <h3 lang="ja">🎧 響きへの探求</h3>
       <ul>
-        <li><a href="https://www.bbc.co.uk/programmes/b006qpgr" target="_blank" rel="noopener">The Archers</a> <span lang="en">— Can't start a day right without knowing what is happening to the folk in Ambridge. </span><span lang="ja">— １５分後、あしたが何になるかなと悩んで楽しみ</span></li>
+        <li><a href="https://www.bbc.co.uk/programmes/b006qpgr" target="_blank" rel="noopener">The Archers</a> <span lang="en">— Can't start a day right without knowing what is happening to the folk in Ambridge.</span><span lang="ja">— １５分後、あしたが何になるかなと悩んで楽しみ</span></li>
         <li><a href="https://prayasyougo.org/" target="_blank" rel="noopener">Pray As You Go</a> <span lang="en">— 15 minutes of Ingatian spirituality everyday</span><span lang="ja">— イグナチオの霊性として15分のポッドキャスト</span></li>
         <li><a href="https://somafm.com/folkfwd/index.html" target="_blank" rel="noopener">Folk Forward</a> <span lang="en">— Every time I listen to this contemporary folk station from soma fm I end up having one or two new favorite songs.</span><span lang="ja">— 現代のアメリカフォークを楽しめるインターネットラジオがいつでも楽しく聞いている。</span></li>
       </ul>
@@ -677,14 +712,20 @@ a:hover, a:focus {
       <h4 lang="ja">最近聞いたもの：</h4>
       <ul>
         <li><a href="https://pca.st/nj1fjsxy" target="_blank" rel="noopener">August 10, 2025: "Faith Over Fear" with Meredith McKay</a> <span lang="en">— .</span><span lang="ja">— </span></li>
-        <li><a href="https://pca.st/0lhwd7x5" target="_blank" rel="noopener">Howl Episode 1:Kill All The Goddamn Wolves And The People Who Brought Them </a> <span lang="en">— Just started this facinating podcast series on the reintroduction of wolves into the American West from Boise State Public Radio</span><span lang="ja">— アイダホ州のポッドキャストを聞き始まった。狼はアメリカの西部で再導入について話している。面白くて意味が深いだと思う。
+        <li><a href="https://pca.st/0lhwd7x5" target="_blank" rel="noopener">Howl Episode 1:Kill All The Goddamn Wolves And The People Who Brought Them</a> <span lang="en">— Just started this facinating podcast series on the reintroduction of wolves into the American West from Boise State Public Radio</span><span lang="ja">— アイダホ州のポッドキャストを聞き始まった。狼はアメリカの西部で再導入について話している。面白くて意味が深いだと思う。</span></li>
+      </ul>
+
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
+      </div>   
     </section>
 
     <section class="card" id="websites">
       <h3 lang="en">🔗 Explorations in Text</h3>
       <h3 lang="ja">🔗 言葉への探求</h3>
       <ul>
-        <li><a href="https://www.asahi.com" target="_blank" rel="noopener">The Aashi Shinbun</a> <span lang="en">— I happily pay for a subscription just for the weekly <a href="https://www.asahi.com/rensai/list.html?id=444">Aesthetic Portfolio</a> column (<i>Bi no rirekisho</i>)、which focuses on one piece of art being shown somewhere in Japan that week. </span><span lang="ja">— 毎週で美の履歴書を喜んで読める。そのため、朝日新聞をうれしく定期購読している。</span></li>
+        <li><a href="https://www.asahi.com" target="_blank" rel="noopener">The Aashi Shinbun</a> <span lang="en">— I happily pay for a subscription just for the weekly <a href="https://www.asahi.com/rensai/list.html?id=444">Aesthetic Portfolio</a> column (<i>Bi no rirekisho</i>)、which focuses on one piece of art being shown somewhere in Japan that week.</span><span lang="ja">— 毎週で美の履歴書を喜んで読める。そのため、朝日新聞をうれしく定期購読している。</span></li>
         <li><a href="https://brutus.jp" target="_blank" rel="noopener">Brutus</a> <span lang="en">— Started picking up the magazine regularly so I can keep up to date with culture in Japan and worldwide</span><span lang="ja">— ずっと前に興味あるテーマがあったら買ったが、最近毎回を買うようになった。なんか、新しい経験を待っている。</span></li>
         <li><a href="https://www.cricbuzz.com/" target="_blank" rel="noopener">Cricbuzz</a> <span lang="en">— Currently following the Caribbean Premier League and looking forward to the Ashes later on this year.</span><span lang="ja">— クリケットが興味になってこのサイトがよく読んでいる。今、Caribbean Premier Leagueを見て、秋になるとオーストラリア対イギリスのThe Ashesというシリーズを楽しみにして</span></li>
       </ul>
@@ -695,6 +736,11 @@ a:hover, a:focus {
         <li><a href="#" target="_blank" rel="noopener">Article or Post Title</a> <span lang="en">— Why you're sharing this</span><span lang="ja">— なぜこれをシェアするのか</span></li>
         <li><a href="#" target="_blank" rel="noopener">Another Article</a> <span lang="en">— What resonated with you</span><span lang="ja">— 心に響いたこと</span></li>
       </ul>
+
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
+      </div>
     </section>
 
   </main>
@@ -702,23 +748,22 @@ a:hover, a:focus {
   <footer class="wrap">
     <div class="social-links">
       <a href="mailto:mail@jasonpackman.com">Email</a>
-	  <a href="https://m.me/jasonmpackman" target="_blank" rel="noopener">Messenger</a>
-	  <a href="https://line.me/ti/p/3_B6yCUUvF" target="_blank" rel="noopener">Line</a>
-	  <a href="https://www.instagram.com/jasonmpackman/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://m.me/jasonmpackman" target="_blank" rel="noopener">Messenger</a>
+      <a href="https://line.me/ti/p/3_B6yCUUvF" target="_blank" rel="noopener">Line</a>
+      <a href="https://www.instagram.com/jasonmpackman/" target="_blank" rel="noopener">Instagram</a>
       <a href="https://www.linkedin.com/in/jasonpackman" target="_blank" rel="noopener">LinkedIn</a>
-	  <a href="https://www.facebook.com/jasonmpackman" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.facebook.com/jasonmpackman" target="_blank" rel="noopener">Facebook</a>
       <a href="https://bsky.app/profile/packman.me" target="_blank" rel="noopener">Bluesky</a>
       <a href="https://www.youtube.com/@jasonmpackman" target="_blank" rel="noopener">YouTube</a>
       <a href="https://en.wikipedia.org/wiki/User:XinJeisan" target="_blank" rel="noopener">Wikipedia</a>
       <a href="https://github.com/xinjeisan" target="_blank" rel="noopener">GitHub</a>
       <a href="https://social.vivaldi.net/@xinjeisan" target="_blank" rel="noopener">Mastodon</a>
-	  <a href="https://pixelfed.social/XinJeisan" target="_blank" rel="noopener">Pixelfed</a>
+      <a href="https://pixelfed.social/XinJeisan" target="_blank" rel="noopener">Pixelfed</a>
       <a href="https://www.pinterest.com/jasonpackman/" target="_blank" rel="noopener">Pinterest</a>
-	  <a href="https://letterboxd.com/XinJeisan/" target="_blank" rel="noopener">Letterboxd</a>
+      <a href="https://letterboxd.com/XinJeisan/" target="_blank" rel="noopener">Letterboxd</a>
       <a href="https://www.librarything.com/profile/xinjeisan" target="_blank" rel="noopener">Library Thing</a>
-     </div>
+    </div>
 
-    
     <div class="footer-text">
       <small lang="en">Jason Packman · Site scaffolded with LLMs, customized by me</small><br>
       <small lang="ja">ジェイサン・パックマン · LLMで作成、カスタマイズ済み</small>
