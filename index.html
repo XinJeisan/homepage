@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js" dir="ltr">
-
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jason Packman — Teacher • Translator • Traveler</title>
@@ -8,10 +8,9 @@
   <meta name="author" content="Jason Packman">
   <meta property="og:title" content="Jason Packman - Teacher • Translator • Traveler">
   <meta property="og:description" content="Personal website of Jason Packman — teacher, translator, traveler.">
-<style>
-<head>
+  <style>
     /* CSS Variables - Improved Color Palette */
-    :root { 
+        :root { 
       --gap: 1rem;
       /* Updated color palette */
       --primary-bg: #e8f5e8;
@@ -24,14 +23,19 @@
       --white: #ffffff;
       --shadow: 0 8px 30px rgba(26,77,26,.08);
       --shadow-hover: 0 12px 40px rgba(26,77,26,.15);
-      
+
       /* New accent colors */
       --accent-color: #4338ca;
       --accent-hover: #3730a3;
       --warm-accent: #d2691e;
       --warm-accent-hover: #b8860b;
       --gold-accent: #b8860b;
-      
+
+      /* NEW: Subtle update section styling */
+      --highlight-bg: rgba(227, 243, 227, 0.4);
+      --highlight-border: rgba(212, 230, 212, 0.6);
+      --highlight-text: #2d5a2d;
+
       --badge-bg: var(--warm-accent);
       --badge-color: #fff;
       --badge-radius: 6px;
@@ -86,11 +90,6 @@
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
       }
-      
-      .banner {
-        background: #2d5016 !important;
-        animation: none !important;
-      }
     }
     
     /* Custom text selection */
@@ -128,19 +127,14 @@
       height: 200px;
       background: linear-gradient(135deg, #2d5016, #1a4d1a, #4338ca);
       background-size: 300% 300%;
+      animation: gradientShift 8s ease infinite;
       position: relative;
     }
     
-    @media (prefers-reduced-motion: no-preference) {
-      .banner {
-        animation: gradientShift 8s ease infinite;
-      }
-      
-      @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     
     .banner::after {
@@ -213,8 +207,7 @@
       color: rgba(255,255,255,0.8);
     }
     
-    .lang-toggle label:hover,
-    .lang-toggle label:focus {
+    .lang-toggle label:hover {
       color: white;
       transform: translateY(-1px);
     }
@@ -243,34 +236,6 @@
       background: var(--card-bg);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border: 1px solid rgba(26,77,26,0.1);
-    }
-    
-    @media (prefers-reduced-motion: no-preference) {
-      .card {
-        opacity: 0;
-        animation: cardFadeIn 0.6s ease-out forwards;
-        animation-delay: calc(var(--card-index, 0) * 0.1s);
-      }
-      
-      .card:nth-child(1) { --card-index: 1; }
-      .card:nth-child(2) { --card-index: 2; }
-      .card:nth-child(3) { --card-index: 3; }
-      .card:nth-child(4) { --card-index: 4; }
-      .card:nth-child(5) { --card-index: 5; }
-      .card:nth-child(6) { --card-index: 6; }
-      .card:nth-child(7) { --card-index: 7; }
-      .card:nth-child(8) { --card-index: 8; }
-      
-      @keyframes cardFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
     }
     
     .card:hover {
@@ -347,12 +312,6 @@
       }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      a:hover, a:focus {
-        text-decoration: underline;
-      }
-    }
-
     /* Photos - Enhanced styling */
     .photo-grid {
       display: grid;
@@ -389,11 +348,32 @@
       font-style: italic;
       font-weight: 300;
     }
-    
-    @media (max-width: 768px) {
-      .photo-grid {
-        grid-template-columns: 1fr;
-      }
+
+    /* Card metadata - Enhanced */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(26,77,26,0.1);
+    }
+
+    .badge {
+      font-size: var(--meta-font-size);
+      background: var(--badge-bg);
+      color: var(--badge-color);
+      border-radius: var(--badge-radius);
+      padding: var(--badge-padding);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .updated-on {
+      font-size: var(--meta-font-size);
+      color: var(--meta-color);
+      font-weight: 400;
     }
 
     /* Footer - Enhanced */
@@ -435,21 +415,6 @@
       border-color: var(--warm-accent);
       box-shadow: 0 4px 12px rgba(210, 105, 30, 0.2);
     }
-    
-    .footer-text {
-      border-top: 1px solid #e2e8f0;
-      padding-top: 1rem;
-    }
-    
-    @media (max-width: 768px) {
-      .social-links {
-        gap: 0.8rem;
-      }
-      .social-links a {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.8rem;
-      }
-    }
 
     /* Quote styling - Enhanced */
     .card-quote p:first-child {
@@ -461,7 +426,14 @@
       font-weight: 400;
     }
 
-    /* Writing section styles */
+    
+
+    .current-reflections p {
+      margin-bottom: 0.75em;
+      line-height: 1.6;
+    }
+
+    /* List improvements */
     .blog-list {
       list-style-type: none;
       padding-left: 0;
@@ -477,14 +449,11 @@
       border-bottom: none;
     }
 
-    /* Main blog links */
     .blog-list > li > a {
-      display: inline;
       font-weight: 600;
       font-size: 1.1rem;
     }
 
-    /* Sub-links */
     .recommended {
       list-style-type: "→ "; 
       margin: 1rem 0 0 1.5rem;
@@ -503,70 +472,9 @@
 
     .recommended a:hover {
       color: var(--accent-hover);
-      text-decoration: none;
     }
 
-    /* Card metadata - Enhanced */
-    .card-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(26,77,26,0.1);
-    }
-
-    /* Badge system - Enhanced */
-    .badge {
-      font-size: var(--meta-font-size);
-      background: var(--badge-bg);
-      color: var(--badge-color);
-      border-radius: var(--badge-radius);
-      padding: var(--badge-padding);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* Updated timestamp */
-    .updated-on {
-      font-size: var(--meta-font-size);
-      color: var(--meta-color);
-      font-weight: 400;
-    }
-
-    /* Archive link */
-    .archive-link {
-      margin-left: auto;
-      font-size: var(--meta-font-size);
-      color: var(--meta-color);
-      text-decoration: none;
-    }
-    .archive-link:hover {
-      text-decoration: underline;
-    }
-
-    /* Current reflections styling - Enhanced */
-    .current-reflections {
-      margin-top: 1.5rem;      
-      padding: 1.25rem;      
-      border: 2px solid var(--warm-accent);
-      border-radius: 12px;
-      background: rgba(210, 105, 30, 0.05);
-    }
-
-    .current-reflections h4 {
-      color: var(--warm-accent);
-      margin-top: 0;
-      font-family: 'Crimson Text', Georgia, serif;
-    }
-
-    .current-reflections p {
-      margin-bottom: 0.75em;
-      line-height: 1.6;
-    }
-
-    /* Responsive design */
+    /* Responsive improvements */
     @media (max-width: 768px) {
       .wrap {
         padding: 1rem;
@@ -585,11 +493,6 @@
         font-size: 1.75rem;
       }
       
-      .lang-toggle {
-        top: 8px;
-        right: 8px;
-      }
-      
       h2 {
         font-size: 1.5rem;
       }
@@ -597,30 +500,33 @@
       h3 {
         font-size: 1.25rem;
       }
-      
-      .current-reflections {
-        padding: 1rem;
-      }
     }
 
-    /* Print styles */
-    @media print {
-      .banner, .lang-toggle { 
-        display: none; 
-      }
-      .card { 
-        box-shadow: none; 
-        border: 1px solid #ccc; 
-        break-inside: avoid;
-      }
-      body { 
-        background: white; 
-        color: black; 
-      }
-      a {
-        color: #000;
-        text-decoration: underline;
-      }
+    /* Design comparison notice */
+    .design-notice {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: var(--warm-accent);
+      color: white;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(210, 105, 30, 0.3);
+      max-width: 280px;
+    }
+
+    .design-notice h5 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+    }
+
+    .design-notice p {
+      margin: 0;
+      font-weight: 400;
+      line-height: 1.4;
     }
 
     /* Focus styles for accessibility */
@@ -629,22 +535,42 @@
       outline-offset: 2px;
     }
 
-    /* Skip to main content for screen readers */
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 6px;
-      background: #000;
-      color: #fff;
-      padding: 8px;
-      text-decoration: none;
-      z-index: 1000;
-    }
-    .skip-link:focus {
-      top: 6px;
+  
+    
+
+    
+    /* Unified styling for all special sections */
+    .special-section {
+      background: var(--highlight-bg);
+      border-left: 3px solid var(--highlight-border);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      position: relative;
     }
 
-  </style>
+    .special-section::before {
+      content: '';
+      position: absolute;
+      left: -3px;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: linear-gradient(135deg, var(--highlight-border), rgba(67, 56, 202, 0.3));
+      border-radius: 3px 0 0 3px;
+    }
+
+    .special-section h4 {
+      color: var(--highlight-text);
+      margin-top: 0;
+      font-weight: 500;
+    }
+
+    /* Ensure consistent typography within special sections */
+    .special-section p,
+    .special-section li {
+      color: var(--text-color);
+    }</style>
 </head>
 <body>
   <!-- Skip to main content link for accessibility -->
@@ -687,7 +613,7 @@
       <p lang="en">I grew up near the San Francisco Airport. So close our windows shook everytime a 747 came in to land. However, I always dreamed of flying away to somewhere else, going on adventures. Reading science fiction writes like Isaac Asimov and Bruce Sterling and travel writers like Paul Theroux and Joe Kane just whetted my appitite to travel. I finally headed abroad to Japan in 1995. My mom thought I wouldn't like it and never want to leave again. She was wrong on that and now I have spent the majority of my adult life in Japan with no plans to go anywhere else. Some interests have come and gone, but I still like traveling, either far way by train, bus, or ferry, or nearby by bicycle. I've always liked movies, too. Not just streaming movies, but going to movie theaters to watch them, wheher going to the While traveling I check out sites from the Tora-san films. In addition to making many friends because of my interest in Tora-san, I have been on TV here in Japan not once but twice because of Tora-san. I've also always been interested in the sacred and the unseen, whether watching Joseph Campbell and Bill Moyers talk myth, exploring shrines and temples around Japan, or going back to attending weekly Mass as a cradle Catholic. I also enjoy checking out churches, temples, shrines as well as locally owned shops and restaurants as well as museums. I was able to do all of that in 2024 on a trip through the Goto Islands during Holy Week. Recently on Sundays you can find me at one of our nearby Catholic Churches for Sunday Mass followed by my Japanese lesson in Machida, as I continue to work towards passing the JLPT level N1.</p>
       <p lang="ja">カリフォルニア州で育ち、ロサンゼルス、シンガポール、小千谷、横浜、ラホヤに住んできました。現在は神奈川県相模原市に拠点を置き、英語教育や翻訳を通じて、言語や文化をつなぐ仕事をしています。趣味は長距離サイクリングと読書です。</p>
 <!-- Current Reflections subsection -->
-  <div class="current-reflections">
+  <div class="special-section">
     <h4 lang="en"> Current Reflections</h4>
     <h4 lang="ja">最近の考察</h4>
     <p lang="en">
@@ -708,7 +634,7 @@
       <p lang="en">I am a member of my local neighorhood association, known as chonaikai in Japanese as well as particpate in a daily, neibourhood rajio taiso. I have also paricipated in encouraging an inclusive society while I lived in Japan. Going back to when I was a participanton the JET programme in the late 1990s in Niigata, I helped organize meetings with the local non-Japanese population, which lead to local Japanese classes as well as a multilingual poster on the rules of garbage collection. More recently, I have paricipated on advisory panels for the Governor of Kanagawa and the City of Sagamihara to discuss issues and propose policies to promote and encourage an inclusive society at the prefectural and municipal level.</p>
       <p lang="ja">2016年から神奈川県国際施策推進懇談会の委員を務め、現在は相模原市で多文化共生の推進に取り組んでいます。地域社会の多様性を支えるための提案を続けています。</p>
 <!-- Current Reflections subsection -->
-  <div class="current-reflections">
+  <div class="special-section">
     <h4 lang="en">Current Reflections</h4>
     <h4 lang="ja">最近の考察</h4>
     <p lang="en">
@@ -728,17 +654,21 @@
       <h3 lang="ja">💼 営みへの探求</h3>
         <p lang="en"> Any time two people get together they are negotiating meaning, whether it is two native speakers of a language or two non native speakers coming from a different background, or it is a reader of a translated text.  Teaching to me isn't just providing facts, grammar, vocabulary to my students. It is, instead, creating a space for students to feel comfortable in this process while giving them the tools to successfully communicate.</p>
         <p lang="ja">人が人に会う時、意味の交渉する。ネイティブ・スピーカーとお互いに会話したり、母語話者が違うでも、英語で使ってお互いに会話したり、だれか翻訳したテクストを読むときも、意味の交渉する。教師の仕事は事実、文法、単語に渡すことではなくて、空間に作って交渉をして、相手に意味が同意できるように自信を教えることだと思います。</p>
-   <!-- Current Reflections subsection -->
-  <div class="current-reflections">
-    <h4 lang="en">🔄 Current Reflections</h4>
-    <h4 lang="ja">🔄 最近の考察</h4>
+  <!-- Current Reflections subsection -->
+  <div class="special-section">
+    <h4 lang="en">Current Reflections</h4>
+    <h4 lang="ja">最近の考察</h4>
     <p lang="en">
      With summer vacation coming to a close I am thinking of the most interesting way to get students to talk about their experiences these past few weeks.
     </p>
     <p lang="ja">
       夏休みがそろそろおわります。どうゆうふうに生徒が夏休みに楽しく話し合うようになることが考え中。
     </p>
-  </div>
+      <div class="card-meta">
+        <span class="badge">New</span>
+        <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
+      </div>
+    </section>
 
  
 
@@ -778,8 +708,10 @@
 
         <!-- Company Blog -->
         <li>
-          <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="en">Company Blog</a>
-          <a href="https://projectgenius.tokyo" target="_blank" rel="noopener" lang="ja">会社のブログ</a>
+          <a href="https://projectgenius.tokyo" target="_blank" rel="noopener">
+          <a href="https://projectgenius.tokyo" target="_blank" rel="noopener">
+		   <span lang="en">Company Blog</span>
+            <span lang="ja">会社のブログ</span>
           <ul class="recommended">
             <li>
               <a href="https://projectgenius.tokyo/2025/06/30/choosing-students-the-new-fashioned-way/" target="_blank" rel="noopener">
@@ -822,6 +754,11 @@
           <p lang="en">Travel memories</p>
           <p lang="ja">旅の思い出</p>
         </div>
+		 <div class="photo-item">
+          <img src="./photo4.webp" alt="Travel photography from Japan" loading="lazy">
+          <p lang="en">Travel memories</p>
+          <p lang="ja">旅の思い出</p>
+        </div>
       </div>
 
       <div class="card-meta">
@@ -839,7 +776,7 @@
         <li><strong>A Hidden Gem</strong> <span lang="en">— What you discovered there</span><span lang="ja">— そこで発見したこと</span></li>
       </ul>
       
-      <h4 lang="en">Recent discoveries:</h4>
+      <div class="special-section"><h4 lang="en">Recent discoveries:</h4>
       <h4 lang="ja">最近の発見：</h4>
       <ul>
         <li><strong>Tokachi Farmer's Market</strong> <span lang="en">— Cool event in Obihiro with tons of local merchants and farmers</span><span lang="ja">— たくさん地域の商人や農家を集まって売品を見たり人々を話すこができる場所。</span></li>
@@ -853,7 +790,7 @@
     </section>
 
     <section class="card" id="podcasts">
-      <h3 lang="en">🎧 Explorations in Sound</h3>
+      </div><h3 lang="en">🎧 Explorations in Sound</h3>
       <h3 lang="ja">🎧 響きへの探求</h3>
       <ul>
         <li><a href="https://www.bbc.co.uk/programmes/b006qpgr" target="_blank" rel="noopener">The Archers</a> <span lang="en">— Can't start a day right without knowing what is happening to the folk in Ambridge.</span><span lang="ja">— １５分後、あしたが何になるかなと悩んで楽しみ</span></li>
@@ -861,7 +798,7 @@
         <li><a href="https://somafm.com/folkfwd/index.html" target="_blank" rel="noopener">Folk Forward</a> <span lang="en">— Every time I listen to this contemporary folk station from soma fm I end up having one or two new favorite songs.</span><span lang="ja">— 現代のアメリカフォークを楽しめるインターネットラジオがいつでも楽しく聞いている。</span></li>
       </ul>
       
-      <h4 lang="en">Recent Discoveries</h4>
+      <div class="special-section"><h4 lang="en">Recent Discoveries</h4>
       <h4 lang="ja">最近聞いたもの：</h4>
       <ul>
         <li><a href="https://pca.st/nj1fjsxy" target="_blank" rel="noopener">August 10, 2025: "Faith Over Fear" with Meredith McKay</a> <span lang="en">— .</span><span lang="ja">— </span></li>
@@ -875,7 +812,7 @@
     </section>
 
     <section class="card" id="websites">
-      <h3 lang="en">🔗 Explorations in Text</h3>
+      </div><h3 lang="en">🔗 Explorations in Text</h3>
       <h3 lang="ja">🔗 言葉への探求</h3>
       <ul>
         <li><a href="https://www.asahi.com" target="_blank" rel="noopener">The Aashi Shinbun</a> <span lang="en">— I happily pay for a subscription just for the weekly <a href="https://www.asahi.com/rensai/list.html?id=444">Aesthetic Portfolio</a> column (<i>Bi no rirekisho</i>)、which focuses on one piece of art being shown somewhere in Japan that week.</span><span lang="ja">— 毎週で美の履歴書を喜んで読める。そのため、朝日新聞をうれしく定期購読している。</span></li>
@@ -883,7 +820,7 @@
         <li><a href="https://www.cricbuzz.com/" target="_blank" rel="noopener">Cricbuzz</a> <span lang="en">— Currently following the Caribbean Premier League and looking forward to the Ashes later on this year.</span><span lang="ja">— クリケットが興味になってこのサイトがよく読んでいる。今、Caribbean Premier Leagueを見て、秋になるとオーストラリア対イギリスのThe Ashesというシリーズを楽しみにして</span></li>
       </ul>
       
-      <h4 lang="en">Worth reading:</h4>
+      <div class="special-section"><h4 lang="en">Worth reading:</h4>
       <h4 lang="ja">読む価値あり：</h4>
       <ul>
         <li><a href="#" target="_blank" rel="noopener">Article or Post Title</a> <span lang="en">— Why you're sharing this</span><span lang="ja">— なぜこれをシェアするのか</span></li>
@@ -893,7 +830,7 @@
       <div class="card-meta">
         <span class="badge">New</span>
         <time class="updated-on" datetime="2025-08-22">Updated on Aug 22 2025</time>
-      </div>
+      </div></div>
     </section>
 
   </main>
