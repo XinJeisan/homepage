@@ -27,6 +27,29 @@
   <button id="start">Start</button>
   <div id="status">Waiting…</div>
   <img id="arrow" src="arrow.png" alt="Arrow pointing to Fuji">
+  <script>
+  const FUJI = {
+    lat: 35.3606,
+    lon: 138.7274
+  };
+
+  function toRad(deg) {
+    return deg * Math.PI / 180;
+  }
+
+  function computeBearing(lat1, lon1, lat2, lon2) {
+    const φ1 = toRad(lat1);
+    const φ2 = toRad(lat2);
+    const Δλ = toRad(lon2 - lon1);
+
+    const y = Math.sin(Δλ) * Math.cos(φ2);
+    const x = Math.cos(φ1) * Math.sin(φ2) -
+              Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+
+    const θ = Math.atan2(y, x);
+    return (θ * 180 / Math.PI + 360) % 360;
+  }
+</script>
 
 </body>
 </html>
