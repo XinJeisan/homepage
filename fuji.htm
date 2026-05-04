@@ -79,6 +79,22 @@ function getLocation() {
     }
   });
 }
+   document.getElementById("start").addEventListener("click", async () => {
+  const status = document.getElementById("status");
+  status.textContent = "Getting location…";
+
+  try {
+    await getLocation();
+    status.textContent = `Location OK: ${userLat.toFixed(4)}, ${userLon.toFixed(4)}`;
+
+    bearingToFuji = computeBearing(userLat, userLon, FUJI.lat, FUJI.lon);
+    status.textContent += ` | Bearing to Fuji: ${bearingToFuji.toFixed(1)}°`;
+
+    startCompass();
+  } catch (err) {
+    status.textContent = "Location error: " + err.message;
+  }
+}); 
 </script>
 
 </body>
