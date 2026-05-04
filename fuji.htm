@@ -49,6 +49,23 @@
     const θ = Math.atan2(y, x);
     return (θ * 180 / Math.PI + 360) % 360;
   }
+    let userLat = null;
+let userLon = null;
+let bearingToFuji = null;
+
+function getLocation() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        userLat = pos.coords.latitude;
+        userLon = pos.coords.longitude;
+        resolve();
+      },
+      err => reject(err),
+      { enableHighAccuracy: true }
+    );
+  });
+}
 </script>
 
 </body>
