@@ -66,6 +66,19 @@ function getLocation() {
     );
   });
 }
+    function startCompass() {
+  window.addEventListener("deviceorientation", event => {
+    const heading = event.webkitCompassHeading !== undefined
+      ? event.webkitCompassHeading
+      : 360 - event.alpha;
+
+    if (bearingToFuji !== null && heading !== null) {
+      const arrow = document.getElementById("arrow");
+      const rotation = bearingToFuji - heading;
+      arrow.style.transform = `rotate(${rotation}deg)`;
+    }
+  });
+}
 </script>
 
 </body>
