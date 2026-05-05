@@ -67,20 +67,28 @@ function getLocation() {
     );
   });
 }
-    function startCompass() {
-  window.addEventListener("deviceorientation", event => {
+   
+function startCompass() {
+  const handler = event => {
     const heading = event.webkitCompassHeading !== undefined
       ? event.webkitCompassHeading
-      : 360 - event.alpha;
+      : event.absolute
+        ? 360 - event.alpha
+        : null;
 
     if (bearingToFuji !== null && heading !== null) {
       const arrow = document.getElementById("arrow");
       const rotation = bearingToFuji - heading;
       arrow.style.transform = `rotate(${rotation}deg)`;
     }
-  });
-}
-   document.getElementById("start").addEventListener("click", async () => {
+  };
+
+  if ("ondeviceorientationabsolute" in window) {
+    window.addEventListener("deviceorientationabsolute", handler);
+  } else {
+    window.addEventListener("deviceorientation", handler);
+  }
+} document.getElementById("start").addEventListener("click", async () => {
   const status = document.getElementById("status");
   status.textContent = "Getting location…";
 
