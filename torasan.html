@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>男はつらいよ — Title Study</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: #0f0e0b;
+    color: #e8e0cc;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  #header {
+    background: #1a1713;
+    border-bottom: 2px solid #8b6914;
+    padding: 24px 32px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  #header-inner { max-width: 900px; margin: 0 auto; }
+
+  #title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    font-size: clamp(18px, 3vw, 26px);
+    color: #d4a832;
+    letter-spacing: 0.04em;
+    font-weight: normal;
+  }
+
+  .subtitle { color: #7a6a4a; font-size: 13px; }
+
+  #tab-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .tab-btn {
+    background: transparent;
+    color: #9a8a6a;
+    border: 1px solid #3a3020;
+    border-radius: 4px;
+    padding: 5px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    font-family: Georgia, serif;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .tab-btn.active {
+    background: #8b6914;
+    color: #fff;
+    border-color: #8b6914;
+  }
+
+  #reveal-btn {
+    margin-left: auto;
+    background: transparent;
+    color: #6a9a6a;
+    border: 1px solid #3a5a3a;
+    border-radius: 4px;
+    padding: 5px 14px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: Georgia, serif;
+  }
+
+  #content { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  .section-intro {
+    color: #7a6a4a;
+    font-size: 13px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  /* Film-by-film rows */
+  .title-row {
+    border-bottom: 1px solid #2a2418;
+    padding: 10px 0;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 0 12px;
+  }
+
+  .film-num {
+    color: #5a4a2a;
+    font-size: 12px;
+    padding-top: 2px;
+    text-align: right;
+  }
+
+  .jp-text {
+    font-size: clamp(15px, 2.5vw, 18px);
+    color: #e8d8a0;
+    letter-spacing: 0.05em;
+  }
+
+  .reading { font-size: 12px; color: #8a7a5a; }
+  .romaji  { font-size: 13px; color: #b89a5a; margin-top: 6px; display: block; }
+  .meaning { font-size: 13px; color: #c8c0a8; display: block; }
+  .note    { font-size: 12px; color: #7a6a4a; line-height: 1.6; display: block; }
+
+  .detail { display: flex; flex-direction: column; gap: 3px; }
+
+  /* Core / Recurring rows */
+  .word-row {
+    border-bottom: 1px solid #2a2418;
+    padding: 12px 0;
+    cursor: pointer;
+  }
+
+  .word-top {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .jp-large {
+    font-size: clamp(18px, 3vw, 24px);
+    color: #e8d8a0;
+    min-width: 80px;
+  }
+
+  .jp-medium {
+    font-size: clamp(18px, 3vw, 22px);
+    color: #e8d8a0;
+  }
+
+  .films-badge {
+    font-size: 11px;
+    color: #4a6a4a;
+    background: #1a2a1a;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid #2a4a2a;
+  }
+
+  /* Kanji spotlight */
+  .kanji-row {
+    border-bottom: 1px solid #2a2418;
+    padding: 12px 0;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 0 16px;
+    align-items: start;
+  }
+
+  .kanji-char {
+    font-size: clamp(32px, 6vw, 48px);
+    color: #d4a832;
+    line-height: 1;
+    font-weight: normal;
+  }
+
+  .kanji-reading {
+    font-size: 13px;
+    color: #9a8a6a;
+  }
+
+  .kanji-meaning { font-size: 13px; color: #c8c0a8; display: block; margin-top: 4px; }
+  .kanji-note   { font-size: 12px; color: #7a6a4a; line-height: 1.6; display: block; }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div id="header-inner">
+    <div id="title-row">
+      <h1>男はつらいよ — Title Study</h1>
+      <span class="subtitle">50 films · vocabulary breakdown</span>
+    </div>
+    <div id="tab-row">
+      <button class="tab-btn active" data-tab="titles">Film-by-Film</button>
+      <button class="tab-btn" data-tab="core">Series Grammar</button>
+      <button class="tab-btn" data-tab="recurring">Recurring Words</button>
+      <button class="tab-btn" data-tab="kanji">Kanji Spotlight</button>
+      <button id="reveal-btn">Reveal all readings</button>
+    </div>
+  </div>
+</div>
+
+<div id="content"></div>
+
+<script>
+const CORE_WORDS = [
+  { id:"otoko", japanese:"男", reading:"おとこ", romaji:"otoko", meaning:"man", note:"Appears in all 50 titles as part of the series name 男はつらいよ" },
+  { id:"ha", japanese:"は", reading:"は", romaji:"wa", meaning:"topic marker particle", note:"Written は but read わ when used as a particle" },
+  { id:"tsurai", japanese:"つらいよ", reading:"つらいよ", romaji:"tsurai yo", meaning:"it's tough / it's hard", note:"つらい = i-adjective 'painful/tough'; よ = sentence-final emphasis particle" },
+  { id:"torajiro", japanese:"寅次郎", reading:"とらじろう", romaji:"Torajirō", meaning:"Tora-san's given name", note:"寅 = tiger (zodiac); 次郎 = second son (classic male name component)" },
+  { id:"tora", japanese:"寅さん", reading:"とらさん", romaji:"Tora-san", meaning:"Tora-san (nickname)", note:"さん is the honorific suffix. Appears in #50 title" },
+  { id:"no", japanese:"の", reading:"の", romaji:"no", meaning:"possessive / linking particle", note:"e.g. 寅次郎の告白 = Torajirō's confession" },
+  { id:"to", japanese:"と", reading:"と", romaji:"to", meaning:"and / with", note:"Used as 'and' in 寅次郎と殿様 (#19)" },
+  { id:"mo", japanese:"も", reading:"も", romaji:"mo", meaning:"also / even / both", note:"花も嵐も (#30): 'both flowers and storms'" },
+  { id:"yori", japanese:"より", reading:"より", romaji:"yori", meaning:"from", note:"柴又より愛をこめて (#36): 'with love from Shibamata'" },
+  { id:"waga", japanese:"わが", reading:"わが", romaji:"waga", meaning:"my / our (literary)", note:"わが道をゆく (#21): 'going my own way'. Classic literary/formal first-person possessive" },
+];
+
+const RECURRING = [
+  { id:"shibamata", japanese:"柴又", reading:"しばまた", romaji:"Shibamata", meaning:"Shibamata (place name)", note:"Tora-san's hometown in Katsushika, Tokyo. Appears in #9, #36", films:[9,36] },
+  { id:"hibiscus", japanese:"ハイビスカスの花", reading:"ハイビスカスのはな", romaji:"haibisukasu no hana", meaning:"hibiscus flower", note:"Appears in #25 and #49 (the re-edit special). ハイビスカス is katakana loanword; 花 = flower", films:[25,49] },
+  { id:"hana", japanese:"花", reading:"はな", romaji:"hana", meaning:"flower", note:"花も嵐も (#30); also 紅の花 (#48) and ハイビスカスの花 (#25, #49)", films:[30,48] },
+  { id:"koi", japanese:"恋", reading:"こい", romaji:"koi", meaning:"romantic love / longing", note:"寅次郎恋歌 (#8), 寅次郎恋やつれ (#13), 浪花の恋 (#27), あじさいの恋 (#29), 寅次郎恋愛塾 (#35)", films:[8,13,27,29,35] },
+  { id:"bojo", japanese:"慕情", reading:"ぼじょう", romaji:"bojō", meaning:"yearning / longing (literary)", note:"柴又慕情 (#9), 知床慕情 (#38). A refined, somewhat literary word for deep longing", films:[9,38] },
+  { id:"uta", japanese:"歌", reading:"うた", romaji:"uta", meaning:"song", note:"寅次郎恋歌 (#8): 恋歌 = love song; かもめ歌 (#26): かもめ = seagull", films:[8,26] },
+];
+
+const BY_TITLE = [
+  { film:1,  element:"男はつらいよ", reading:"おとこはつらいよ", romaji:"Otoko wa Tsurai yo", meaning:"It's Tough Being a Man", note:"The series name itself. All 50 films begin with this." },
+  { film:2,  element:"続", reading:"ぞく", romaji:"zoku", meaning:"continuation / sequel", note:"続・男はつらいよ = Continued / Part 2" },
+  { film:3,  element:"フーテンの寅", reading:"フーテンのとら", romaji:"fūten no tora", meaning:"Tora the drifter/vagabond", note:"フーテン is slang for a listless, aimless wanderer. Written in katakana for colloquial feel." },
+  { film:4,  element:"新", reading:"しん", romaji:"shin", meaning:"new", note:"新・男はつらいよ = New It's Tough Being a Man" },
+  { film:5,  element:"望郷篇", reading:"ぼうきょうへん", romaji:"bōkyō-hen", meaning:"hometown longing chapter", note:"望郷 = nostalgia/longing for home; 篇 = chapter/volume suffix used in films 5, 6, 7" },
+  { film:6,  element:"純情篇", reading:"じゅんじょうへん", romaji:"junjō-hen", meaning:"pure-hearted chapter", note:"純情 = pure/naive feelings (often romantic). Also appears as 純情詩集 in #18" },
+  { film:7,  element:"奮闘篇", reading:"ふんとうへん", romaji:"funtō-hen", meaning:"struggle / fighting hard chapter", note:"奮闘 = strenuous effort, battling on" },
+  { film:8,  element:"恋歌", reading:"こいうた", romaji:"koiuta", meaning:"love song", note:"恋 (love/longing) + 歌 (song)" },
+  { film:9,  element:"柴又慕情", reading:"しばまたぼじょう", romaji:"Shibamata Bojō", meaning:"Longing for Shibamata", note:"Place name + literary longing word" },
+  { film:10, element:"夢枕", reading:"ゆめまくら", romaji:"yumemakura", meaning:"appearing in someone's dream", note:"夢 (dream) + 枕 (pillow). A classical expression" },
+  { film:11, element:"忘れな草", reading:"わすれなぐさ", romaji:"wasurenagusa", meaning:"forget-me-not (flower)", note:"忘れ (to forget) + な (don't) + 草 (grass/plant). Literally 'don't-forget plant'" },
+  { film:12, element:"私の寅さん", reading:"わたしのとらさん", romaji:"watashi no Tora-san", meaning:"my Tora-san", note:"私 = I/my (polite). の = possessive particle" },
+  { film:13, element:"恋やつれ", reading:"こいやつれ", romaji:"koiyatsure", meaning:"worn out from love / lovesick", note:"恋 + やつれ (emaciation, haggardness from suffering)" },
+  { film:14, element:"子守唄", reading:"こもりうた", romaji:"komoriuta", meaning:"lullaby", note:"子守 (childcare/babysitting) + 唄 (song). 唄 is a variant of 歌, with a more folk/traditional nuance" },
+  { film:15, element:"相合い傘", reading:"あいあいがさ", romaji:"aiaigasa", meaning:"sharing an umbrella (romantic)", note:"相合い = mutual/together; 傘 = umbrella. Sharing one umbrella = romantic intimacy in Japanese culture" },
+  { film:16, element:"葛飾立志篇", reading:"かつしかりっしへん", romaji:"Katsushika Risshi-hen", meaning:"Katsushika ambition chapter", note:"葛飾 = Katsushika (Tokyo ward, Tora-san's home district); 立志 = resolving to better oneself" },
+  { film:17, element:"夕焼け小焼け", reading:"ゆうやけこやけ", romaji:"yūyake koyake", meaning:"evening glow (sunset)", note:"夕焼け = sunset glow; 小焼け is a reduplication for poetic effect. Famous children's song title" },
+  { film:18, element:"純情詩集", reading:"じゅんじょうししゅう", romaji:"junjō shishū", meaning:"collection of pure-hearted poems", note:"純情 (see #6) + 詩集 = poetry collection/anthology" },
+  { film:19, element:"寅次郎と殿様", reading:"とらじろうととのさま", romaji:"Torajirō to Tonosama", meaning:"Torajirō and the Lord", note:"と = 'and'; 殿様 = feudal lord (used humorously)" },
+  { film:20, element:"頑張れ！", reading:"がんばれ！", romaji:"Ganbare!", meaning:"Hang in there! / Do your best!", note:"Imperative form of 頑張る. One of the most common Japanese expressions of encouragement" },
+  { film:21, element:"わが道をゆく", reading:"わがみちをゆく", romaji:"waga michi o yuku", meaning:"going my own way", note:"わが = literary 'my'; 道 = road/way/path; をゆく = to go along (を is object marker; ゆく = archaic/literary form of 行く)" },
+  { film:22, element:"噂の寅次郎", reading:"うわさのとらじろう", romaji:"uwasa no Torajirō", meaning:"the talked-about Torajirō / Torajirō of rumour", note:"噂 = rumour, gossip. 噂の～ = 'the famous/talked-about ~'" },
+  { film:23, element:"翔んでる寅次郎", reading:"とんでるとらじろう", romaji:"tonderu Torajirō", meaning:"Torajirō who soars / free-spirited Torajirō", note:"翔んでる = casual form of 翔んでいる (soaring). 翔 = to soar. Trendy expression in late-70s Japan" },
+  { film:24, element:"春の夢", reading:"はるのゆめ", romaji:"haru no yume", meaning:"spring dream", note:"春 (spring) + の + 夢 (dream). Also an idiom for fleeting, pleasant illusions" },
+  { film:25, element:"ハイビスカスの花", reading:"ハイビスカスのはな", romaji:"haibisukasu no hana", meaning:"hibiscus flower", note:"ハイビスカス = katakana loanword from English 'hibiscus'; 花 = flower" },
+  { film:26, element:"かもめ歌", reading:"かもめうた", romaji:"kamome uta", meaning:"seagull song", note:"かもめ = seagull (usually written 鴎 in kanji but here in hiragana)" },
+  { film:27, element:"浪花の恋の寅次郎", reading:"なにわのこいのとらじろう", romaji:"Naniwa no koi no Torajirō", meaning:"Torajirō's love in Naniwa (Osaka)", note:"浪花 = classical name for Osaka; の恋の = 'love of/in'. Double の for poetic rhythm" },
+  { film:28, element:"紙風船", reading:"かみふうせん", romaji:"kamifūsen", meaning:"paper balloon", note:"紙 = paper; 風船 = balloon. Fragile, playful object — metaphor for something light and fleeting" },
+  { film:29, element:"あじさいの恋", reading:"あじさいのこい", romaji:"ajisai no koi", meaning:"hydrangea love", note:"あじさい = hydrangea (紫陽花). Often written in hiragana. Rainy season flower, associated with melancholy" },
+  { film:30, element:"花も嵐も寅次郎", reading:"はなもあらしもとらじろう", romaji:"hana mo arashi mo Torajirō", meaning:"flowers and storms alike — Torajirō", note:"嵐 = storm. も…も = 'both...and'. Echoes the song 人生劇場: 花も嵐も踏み越えて" },
+  { film:31, element:"旅と女と寅次郎", reading:"たびとおんなととらじろう", romaji:"tabi to onna to Torajirō", meaning:"travel, women, and Torajirō", note:"旅 = travel/journey; 女 = woman. と…と…と = listing with 'and'" },
+  { film:32, element:"口笛を吹く寅次郎", reading:"くちぶえをふくとらじろう", romaji:"kuchibue o fuku Torajirō", meaning:"Torajirō who whistles", note:"口笛 = whistle (mouth-flute); 吹く = to blow/play (wind). を is object marker; 吹く modifies 寅次郎" },
+  { film:33, element:"夜霧にむせぶ寅次郎", reading:"よぎりにむせぶとらじろう", romaji:"yogiri ni musebu Torajirō", meaning:"Torajirō choking in the night fog", note:"夜霧 = night fog; に = directional/causative particle; むせぶ = to choke/be choked (e.g. by smoke, fog, or emotion). Literary register." },
+  { film:34, element:"真実一路", reading:"しんじついちろ", romaji:"shinjitsu ichiro", meaning:"the single road of truth / true and straight path", note:"真実 = truth; 一路 = straight on, one road ahead. A classic phrase meaning unwavering integrity. Also a famous novel title." },
+  { film:35, element:"恋愛塾", reading:"れんあいじゅく", romaji:"ren'ai juku", meaning:"love school / romance academy", note:"恋愛 = romance; 塾 = cram school/private academy. Juku are ubiquitous in Japanese education culture" },
+  { film:36, element:"柴又より愛をこめて", reading:"しばまたよりあいをこめて", romaji:"Shibamata yori ai o komete", meaning:"With love from Shibamata", note:"より = from; 愛 = love; をこめて = 'putting into it / with feeling'. Parodies 'From Russia With Love'" },
+  { film:37, element:"幸福の青い鳥", reading:"こうふくのあおいとり", romaji:"kōfuku no aoi tori", meaning:"the bluebird of happiness", note:"幸福 = happiness/bliss; 青い = blue (い-adjective); 鳥 = bird. References Maeterlinck's 'The Blue Bird'" },
+  { film:38, element:"知床慕情", reading:"しれとこぼじょう", romaji:"Shiretoko Bojō", meaning:"Longing for Shiretoko", note:"知床 = Shiretoko Peninsula (Hokkaido). 慕情 appears again (see #9)" },
+  { film:39, element:"寅次郎物語", reading:"とらじろうものがたり", romaji:"Torajirō Monogatari", meaning:"The Tale of Torajirō", note:"物語 = tale/story. A very classical/literary word (cf. 源氏物語 = The Tale of Genji)" },
+  { film:40, element:"サラダ記念日", reading:"サラダきねんび", romaji:"Sarada kinenbi", meaning:"Salad anniversary / salad memorial day", note:"サラダ = katakana 'salad'; 記念日 = anniversary/commemorative day. Reference to 俵万智's famous 1987 tanka poetry collection" },
+  { film:41, element:"心の旅路", reading:"こころのたびじ", romaji:"kokoro no tabiji", meaning:"journey of the heart", note:"心 = heart/mind/soul; 旅路 = journey/road of travel (旅 + 路). More poetic than 旅 alone" },
+  { film:42, element:"ぼくの伯父さん", reading:"ぼくのおじさん", romaji:"boku no ojisan", meaning:"my uncle", note:"ぼく = informal first-person (male); 伯父 = uncle specifically meaning a parent's older brother (伯父 = older; 叔父 = younger — the distinction is lost in casual おじさん usage); さん = honorific. Title is from Mitsuo's POV. Also references Jacques Tati's Mon Oncle." },
+  { film:43, element:"寅次郎の休日", reading:"とらじろうのきゅうじつ", romaji:"Torajirō no Kyūjitsu", meaning:"Torajirō's holiday", note:"休日 = holiday/day off. Parodies 'Roman Holiday' (ローマの休日)" },
+  { film:44, element:"寅次郎の告白", reading:"とらじろうのこくはく", romaji:"Torajirō no Kokuhaku", meaning:"Torajirō's confession", note:"告白 = confession (romantic or general). 告 = to tell; 白 = white/reveal" },
+  { film:45, element:"寅次郎の青春", reading:"とらじろうのせいしゅん", romaji:"Torajirō no Seishun", meaning:"Torajirō's youth / prime of life", note:"青春 = youth, one's prime (literally 'blue/green spring'). A very commonly used word in Japanese" },
+  { film:46, element:"寅次郎の縁談", reading:"とらじろうのえんだん", romaji:"Torajirō no Endan", meaning:"Torajirō's marriage proposal/arrangement", note:"縁談 = marriage proposal or negotiation (traditional/formal). 縁 = fate/connection; 談 = talk/discussion" },
+  { film:47, element:"拝啓車寅次郎様", reading:"はいけいくるまとらじろうさま", romaji:"Haikei Kuruma Torajirō-sama", meaning:"Dear Mr. Kuruma Torajirō", note:"拝啓 = formal letter opening (拝 = to bow humbly; 啓 = to inform — together a set epistolary greeting, 'Dear...'). 車 = Kuruma (Tora-san's surname); 様 = formal honorific. The title directly parodies 拝啓天皇陛下様 (1959), an early Atsumi Kiyoshi film — same 拝啓～様 structure, with 天皇陛下 (His Majesty the Emperor) replaced by 車寅次郎." },
+  { film:48, element:"寅次郎紅の花", reading:"とらじろうくれないのはな", romaji:"Torajirō Kurenai no Hana", meaning:"Torajirō's crimson flower", note:"紅 = crimson/deep red (read くれない in poetic/classical usage, otherwise こう/く); 花 = flower. Final film with Atsumi." },
+  { film:49, element:"寅次郎ハイビスカスの花 特別篇", reading:"とらじろうハイビスカスのはな とくべつへん", romaji:"Torajirō Haibisukasu no Hana: Tokubetsu-hen", meaning:"Torajirō's Hibiscus Flower: Special Edition", note:"特別篇 = special edition/chapter. 特別 = special; 篇 = volume/edition (same kanji as in films 5–7)" },
+  { film:50, element:"お帰り 寅さん", reading:"おかえり とらさん", romaji:"Okaeri, Tora-san", meaning:"Welcome home / You're back, Tora-san", note:"お帰り = 'welcome back' (the standard greeting said to someone returning home). Deeply poignant given Atsumi's death. The space between お帰り and 寅さん is intentional in the official title." },
+];
+
+const KANJI_SPOTLIGHT = [
+  { kanji:"寅", readings:"とら (tora)", meaning:"tiger; the zodiac tiger sign", note:"Used in 寅さん, 寅次郎, フーテンの寅. The name means Tora-san was born in the year/hour of the tiger." },
+  { kanji:"恋", readings:"こい (koi)", meaning:"romantic love / longing", note:"Appears in 恋歌, 恋やつれ, 恋愛塾, あじさいの恋, 浪花の恋. Distinct from 愛 (ai) which is deeper/broader love." },
+  { kanji:"愛", readings:"あい (ai)", meaning:"love (deep, general)", note:"柴又より愛をこめて (#36). 愛 is more universal/profound; 恋 is more specifically romantic yearning." },
+  { kanji:"花", readings:"はな (hana)", meaning:"flower", note:"紅の花 (#48), ハイビスカスの花 (#25, #49), 花も嵐も (#30). 忘れな草 (#11) is also a flower name." },
+  { kanji:"旅", readings:"たび (tabi)", meaning:"journey / travel", note:"旅と女と (#31), 心の旅路 (#41 as 旅路). Core to the series — Tora-san is always travelling." },
+  { kanji:"夢", readings:"ゆめ (yume)", meaning:"dream", note:"夢枕 (#10), 春の夢 (#24). 夢 can mean a sleeping dream or an aspiration." },
+  { kanji:"篇/編", readings:"へん (hen)", meaning:"chapter / volume / edition", note:"望郷篇 (#5), 純情篇 (#6), 奮闘篇 (#7), 特別篇 (#49). Both 篇 and 編 are used; 篇 is more literary." },
+  { kanji:"慕", readings:"ぼ (bo) in 慕情", meaning:"to yearn for / to adore", note:"慕情 (bojō) = deep longing. 柴又慕情 (#9), 知床慕情 (#38). 慕う (したう) = to yearn for someone." },
+  { kanji:"純", readings:"じゅん (jun)", meaning:"pure / innocent", note:"純情篇 (#6), 純情詩集 (#18). 純 alone means pure; 純情 = pure-hearted feelings." },
+  { kanji:"郷", readings:"きょう (kyō) in 望郷; ごう (gō) in place names e.g. 郷土", meaning:"hometown / native place", note:"望郷 (#5) = longing for home; 郷 is read きょう here. The ごう reading appears mainly in place names and compounds. 故郷 (ふるさと/こきょう) is another common form meaning hometown." },
+];
+
+// --- State ---
+let activeTab = 'titles';
+const open = {};
+let allOpen = false;
+
+// --- Rendering ---
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderTitles() {
+  return `<p class="section-intro">Each film's subtitle broken down. Click a row to reveal reading + notes. All titles begin with 男はつらいよ — study the unique subtitle for each.</p>` +
+    BY_TITLE.map((item, i) => {
+      const key = `title-${i}`;
+      const isOpen = !!open[key];
+      return `<div class="title-row" data-key="${key}">
+        <span class="film-num">#${item.film}</span>
+        <div>
+          <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+            <span class="jp-text">${escHtml(item.element)}</span>
+            ${isOpen ? `<span class="reading">${escHtml(item.reading)}</span>` : ''}
+          </div>
+          ${isOpen ? `<div class="detail">
+            <span class="romaji">${escHtml(item.romaji)}</span>
+            <span class="meaning">${escHtml(item.meaning)}</span>
+            <span class="note">${escHtml(item.note)}</span>
+          </div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+}
+
+function renderCore() {
+  return `<p class="section-intro">Words and particles that appear across multiple titles or form the backbone of the series name. Master these first.</p>` +
+    CORE_WORDS.map(w => {
+      const key = `core-${w.id}`;
+      const isOpen = !!open[key];
+      return `<div class="word-row" data-key="${key}">
+        <div class="word-top">
+          <span class="jp-large">${escHtml(w.japanese)}</span>
+          ${isOpen ? `<span class="reading">${escHtml(w.reading)}</span>` : ''}
+        </div>
+        ${isOpen ? `<div class="detail" style="margin-top:6px;">
+          <span class="romaji">${escHtml(w.romaji)}</span>
+          <span class="meaning">${escHtml(w.meaning)}</span>
+          <span class="note">${escHtml(w.note)}</span>
+        </div>` : ''}
+      </div>`;
+    }).join('');
+}
+
+function renderRecurring() {
+  return `<p class="section-intro">Vocabulary that appears in more than one film title. Learning these gives you instant recognition across multiple entries.</p>` +
+    RECURRING.map(w => {
+      const key = `rec-${w.id}`;
+      const isOpen = !!open[key];
+      return `<div class="word-row" data-key="${key}">
+        <div class="word-top">
+          <span class="jp-medium">${escHtml(w.japanese)}</span>
+          <span class="films-badge">films ${w.films.join(', ')}</span>
+          ${isOpen ? `<span class="reading">${escHtml(w.reading)}</span>` : ''}
+        </div>
+        ${isOpen ? `<div class="detail" style="margin-top:6px;">
+          <span class="romaji">${escHtml(w.romaji)}</span>
+          <span class="meaning">${escHtml(w.meaning)}</span>
+          <span class="note">${escHtml(w.note)}</span>
+        </div>` : ''}
+      </div>`;
+    }).join('');
+}
+
+function renderKanji() {
+  return `<p class="section-intro">Individual kanji worth knowing in depth — their readings, meanings, and how they pattern across the series.</p>` +
+    KANJI_SPOTLIGHT.map((k, i) => {
+      const key = `kanji-${i}`;
+      const isOpen = !!open[key];
+      return `<div class="kanji-row" data-key="${key}">
+        <span class="kanji-char">${escHtml(k.kanji)}</span>
+        <div>
+          <span class="kanji-reading">${isOpen ? escHtml(k.readings) : '— click to reveal —'}</span>
+          ${isOpen ? `<span class="kanji-meaning">${escHtml(k.meaning)}</span>
+          <span class="kanji-note">${escHtml(k.note)}</span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+}
+
+function render() {
+  const content = document.getElementById('content');
+  if (activeTab === 'titles')    content.innerHTML = renderTitles();
+  else if (activeTab === 'core') content.innerHTML = renderCore();
+  else if (activeTab === 'recurring') content.innerHTML = renderRecurring();
+  else if (activeTab === 'kanji') content.innerHTML = renderKanji();
+
+  // Attach click handlers
+  content.querySelectorAll('[data-key]').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.key;
+      open[k] = !open[k];
+      render();
+    });
+  });
+}
+
+function updateTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === activeTab);
+  });
+}
+
+// --- Event listeners ---
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeTab = btn.dataset.tab;
+    updateTabs();
+    render();
+  });
+});
+
+document.getElementById('reveal-btn').addEventListener('click', () => {
+  const btn = document.getElementById('reveal-btn');
+  if (allOpen) {
+    Object.keys(open).forEach(k => delete open[k]);
+    allOpen = false;
+    btn.textContent = 'Reveal all readings';
+  } else {
+    BY_TITLE.forEach((_, i) => open[`title-${i}`] = true);
+    CORE_WORDS.forEach(w => open[`core-${w.id}`] = true);
+    RECURRING.forEach(w => open[`rec-${w.id}`] = true);
+    KANJI_SPOTLIGHT.forEach((_, i) => open[`kanji-${i}`] = true);
+    allOpen = true;
+    btn.textContent = 'Hide all readings';
+  }
+  render();
+});
+
+// --- Init ---
+render();
+</script>
+</body>
+</html>
